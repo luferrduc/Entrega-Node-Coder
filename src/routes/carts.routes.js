@@ -3,7 +3,7 @@ import CartManager from "../managers/CartManager.js";
 import { cartsFilePath } from "../utils.js";
 
 const router = Router()
-const manager = new ProductManager(cartsFilePath);
+const manager = new CartManager(cartsFilePath);
 
 
 

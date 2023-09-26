@@ -6,7 +6,7 @@ const router = Router();
 const manager = new ProductManager(productsFilePath);
 
 router
-  .get("/products", async (req, res) => {
+  .get("/", async (req, res) => {
     const { limit } = req.query;
     const products = await manager.getProducts();
     if (products.error)
@@ -21,13 +21,22 @@ router
     return res.send(filteredProducts);
   })
 
-  .get("/products/:pid", async (req, res) => {
+  .get("/:pid", async (req, res) => {
     const { pid } = req.params;
     const product = await manager.getProductById(parseInt(pid));
     if (product.error) return res.send(`<h1> Product ${product.error}</h1>`);
 
     return res.send(product);
-  });
+  })
+  .post("/", (req, res) => {
+    res.send("Adding product")
+  })
+  .put("/:pid", (req, res) => {
+    res.send("Updating product")
+  })
+  .delete("/:pid", (req, res) => {
+    res.send("Deleting product")
+  })
 
 
   export default router

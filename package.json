@@ -1,14 +1,14 @@
 {
   "name": "preentrega-node",
   "version": "1.0.0",
-  "description": "",
+  "description": "Entrega curso backend en node coderhouse",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luciano Ferrando",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
