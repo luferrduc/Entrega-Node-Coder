@@ -40,7 +40,6 @@ router
         .status(400)
         .send({ status: "error", error: "Incomplete values" });
     const newProduct = await manager.addProduct(product);
-    console.log(newProduct);
     if (newProduct.status === "error")
       return res.status(400).send({ status: "error", error: newProduct.error });
 
@@ -67,8 +66,11 @@ router
   })
   .delete("/:pid", async (req, res) => {
     const pid = parseInt(req.params.pid);
+    const deletedProduct = await manager.deleteProduct(pid)
+    if(deletedProduct.status === "error") return res.status(400).send({ status: "error", error: deletedProduct.error })
 
-    res.send("Deleting product");
+
+    return res.send({ status: "success", payload: deletedProduct});
   });
 
 export default router;

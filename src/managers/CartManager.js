@@ -77,15 +77,33 @@ export default class CartManager {
     }
   };
 
-  addProductToCart = async (cid, {pid, quantity}) => {
+  addProductToCart = async (cid, pid) => {
     const carts = await this.getCarts()
+
     const cart = await this.getCartById(cid)
-    const product = {}
-    if(cart.products.find(prod => prod.id === pid))
-
     if(cart.status === "error") return {status: cart.status, error: cart.error }
+    
+    const product = {}
+
+    carts.forEach(cart => {
+      cart.products.map(prod => {
+        if(prod.id === pid){
+          prod.quantity++
+        }else{
+          cart.products.push({id, quantity})
+        }
+      })
+    });
+
+    // if(cart.products.find(prod => prod.id === pid))
 
 
+    await fs.promises.writeFile(
+      this.path,
+      JSON.stringify(carts, null, "\t")
+    );
+
+    return carts
   }
 
   

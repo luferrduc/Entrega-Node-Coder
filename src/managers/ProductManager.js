@@ -1,4 +1,3 @@
-import { error } from "node:console";
 import fs from "node:fs";
 
 export default class ProductManager {
@@ -74,7 +73,6 @@ export default class ProductManager {
       }
       // CODE único
       const productCode = products.find((product) => product.code === code);
-      console.log(productCode);
       if (productCode) {
         return {
           status: "error",
@@ -163,7 +161,7 @@ export default class ProductManager {
         products.splice(index, index);
       }
       await fs.promises.writeFile(this.path, JSON.stringify(products));
-      return {status: "success"}
+      return {products}
 
     } catch (error) {
       return { status: "server error", error: error.message };
