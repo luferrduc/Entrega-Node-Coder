@@ -3,28 +3,40 @@
 		"title": "Notebook Lenovo",
 		"description": "Notebook Lenovo última generación",
 		"price": 2000,
-		"thumbnail": "",
 		"code": "notebook-001",
 		"stock": 250,
-		"id": 1
+		"id": 1,
+		"thumbnail": [],
+		"status": true
 	},
 	{
 		"title": "HP Omen 16",
 		"description": "Notebook HP Omen 16",
 		"price": 2500,
-		"thumbnail": "",
 		"code": "notebook-002",
 		"stock": 250,
-		"id": 2
+		"id": 2,
+		"thumbnail": [],
+		"status": true
 	},
 	{
 		"title": "Asus TUF Gaming",
 		"description": "Notebook Asus TUF Gaming año 2020",
 		"price": 2200,
-		"thumbnail": "",
 		"code": "notebook-003",
 		"stock": 250,
-		"id": 3
+		"id": 3,
+		"thumbnail": [],
+		"status": true
+	},
+	{
+		"title": "Mac Pro",
+		"description": "New mac pro 2023",
+		"price": 100000,
+		"code": "notebook-006",
+		"stock": 2,
+		"id": 4,
+		"thumbnail": [],
+		"status": true
 	}
-
 ]

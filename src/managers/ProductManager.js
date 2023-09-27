@@ -1,3 +1,4 @@
+import { error } from "node:console";
 import fs from "node:fs";
 
 export default class ProductManager {
@@ -16,8 +17,7 @@ export default class ProductManager {
         return [];
       }
     } catch (error) {
-      console.log(error);
-      return { error };
+      return { status: "server error", error: error.message };
     }
   };
 
@@ -26,29 +26,41 @@ export default class ProductManager {
     try {
       const products = await this.getProducts();
       const productFound = products.find((product) => {
-        return product.id == id;
+        return product.id === id;
       });
-      if (!productFound) return { error: "Error: 404 Not Found" };
+      if (!productFound) return { status: "error", error: "404 Not Found" };
 
       return productFound;
     } catch (error) {
-      console.log(error);
-      return { error };
+      return { status: "server error", error: error.message };
     }
   };
 
   // ADD
-  addProduct = async (producto) => {
-    const { title, description, price, thumbnail, code, stock } = producto;
-    const error = {};
+  addProduct = async ({
+    title,
+    description,
+    price,
+    thumbnail = [],
+    code,
+    stock,
+    status = true,
+  }) => {
+    const producto = {
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock,
+      status,
+    };
     // Validacion de campos
-    if (!title || !description || !price || !thumbnail || !code || !stock) {
-      console.log(
-        "Error: El producto no fue ingresado, todos los campos son obligatorios"
-      );
+    if (!title || !description || !price || !code || !stock) {
       return {
+        status: "error",
         error:
-          "Error: El producto no fue ingresado, todos los campos son obligatorios",
+          "El producto no fue ingresado, todos los campos son obligatorios",
       };
     }
 
@@ -56,48 +68,57 @@ export default class ProductManager {
       const products = await this.getProducts();
 
       if (!products.length) {
-        // CODE único
-        const productCode = products.find((product) => product.code === code);
-        if (productCode) {
-          error.error = `Error: El código ${code} del producto ingresado ya se encuentra en otro producto.`;
-          console.log(
-            `Error: El código ${code} del producto ingresado ya se encuentra en otro producto.`
-          );
-          return { error };
-        }
         producto.id = 1;
       } else {
         producto.id = products[products.length - 1].id + 1;
       }
-
+      // CODE único
+      const productCode = products.find((product) => product.code === code);
+      console.log(productCode);
+      if (productCode) {
+        return {
+          status: "error",
+          error: `A product already exists with this code`,
+        };
+      }
       products.push(producto);
       await fs.promises.writeFile(
         this.path,
         JSON.stringify(products, null, "\t")
       );
-      console.log("Producto agregado correctamente");
       return producto;
     } catch (error) {
-      console.log(error);
-      return { error };
+      return { status: "server error", error: error.message };
     }
   };
 
   // UPDATE
-  updateProduct = async (id, producto) => {
-    const { title, description, price, thumbnail, code, stock } = producto;
+  updateProduct = async (
+    id,
+    { title, description, price, thumbnail=[], code, stock, status=true }
+  ) => {
+    const producto = { title, description, price, thumbnail, code, stock, status };
     // Validacion de campos
 
+    if(!id){
+      return {status: "error", error: "Id is not defined"}
+    }
     if (!producto) {
-      console.log("Error: No se puede actualizar con un producto vacío");
-      return;
+      return {status: "error", error: "No se puede actualizar con un producto vacío"};
     }
 
     try {
       const products = await this.getProducts();
       const productFound = await this.getProductById(id);
       if (productFound.error) {
-        return productFound.error;
+        return {status: "error", error: productFound.error};
+      }
+      const productCode = products.find((product) => product.code === code);
+      if (productCode) {
+        return {
+          status: "error",
+          error: "A product already exists with this code",
+        };
       }
 
       products.forEach((product) => {
@@ -118,36 +139,34 @@ export default class ProductManager {
 
       return productFound;
     } catch (error) {
-      console.log(error);
+      return { status: "server error", error: error.message };
     }
   };
 
   // DELETE
   deleteProduct = async (id) => {
+
+    if(!id){
+      return {status: "error", error: "Id is not defined"}
+    }
+
     try {
       const products = await this.getProducts();
-      const index = products.findIndex((product) => product.id == id);
-      const product = products.find((product) => product.id == id);
+      const index = products.findIndex((product) => product.id === id);
 
-      if (!products.length) {
-        console.log("No hay productos para eliminar");
-        return [];
+      if (!products.length || index === -1) {
+        return {status: "error", error: "404 Not Found"};
       }
-      if (!product) {
-        console.log(`No existe un producto con id ${id}`);
-        return [];
-      }
-
-      if (index == 0) {
+      if (index === 0) {
         products.splice(index, index + 1);
       } else {
         products.splice(index, index);
       }
-
       await fs.promises.writeFile(this.path, JSON.stringify(products));
+      return {status: "success"}
+
     } catch (error) {
-      console.log(error);
-      return { error };
+      return { status: "server error", error: error.message };
     }
   };
 }
