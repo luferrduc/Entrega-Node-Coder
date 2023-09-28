@@ -24,6 +24,7 @@ router
   .post("/:cid/product/:pid", async (req, res) => {
     const { cid, pid } = req.params;
     const carts = await manager.addProductToCart(parseInt(cid), parseInt(pid))
+    if(carts.status === "error") return res.status(400).send({ status: "error", error: carts.error });
     return res.send({ status: "success", payload: carts });
   });
 

@@ -78,25 +78,24 @@ export default class CartManager {
   };
 
   addProductToCart = async (cid, pid) => {
+
+    // const productManager 
     const carts = await this.getCarts()
 
     const cart = await this.getCartById(cid)
-    if(cart.status === "error") return {status: cart.status, error: cart.error }
+    if(cart.status === "error") return { status: "error", error: "404 Cart Not Found" }
     
-    const product = {}
+    // const productExists = 
 
-    carts.forEach(cart => {
-      cart.products.map(prod => {
-        if(prod.id === pid){
-          prod.quantity++
-        }else{
-          cart.products.push({id, quantity})
-        }
-      })
-    });
 
-    // if(cart.products.find(prod => prod.id === pid))
-
+    const cartIndex = carts.findIndex( ct => ct.id === cid )
+    const productIndex = carts[cartIndex].products.findIndex(prod => prod.id === pid)
+    
+    if(productIndex === -1){
+      carts[cartIndex].products.push({id: pid, quantity: 1})
+    }else{
+      carts[cartIndex].products[productIndex].quantity = carts[cartIndex].products[productIndex].quantity + 1
+    }
 
     await fs.promises.writeFile(
       this.path,
