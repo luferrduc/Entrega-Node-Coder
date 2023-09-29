@@ -1,4 +1,6 @@
 import fs from "node:fs";
+import { productsFilePath } from "../utils.js";
+import ProductManager from './ProductManager.js'
 /*
 CARTS:
 [
@@ -79,14 +81,14 @@ export default class CartManager {
 
   addProductToCart = async (cid, pid) => {
 
-    // const productManager 
+    const productManager = new ProductManager(productsFilePath)
     const carts = await this.getCarts()
 
     const cart = await this.getCartById(cid)
     if(cart.status === "error") return { status: "error", error: "404 Cart Not Found" }
     
-    // const productExists = 
-
+    const productExists = await productManager.getProductById(pid)
+    if(productExists.status === "error") return { status: "error", error: "404 Product Not Found" }
 
     const cartIndex = carts.findIndex( ct => ct.id === cid )
     const productIndex = carts[cartIndex].products.findIndex(prod => prod.id === pid)
