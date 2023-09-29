@@ -9,8 +9,8 @@ router
   .get("/", async (req, res) => {
     const { limit } = req.query;
     const products = await manager.getProducts();
-    if (products.error)
-      return res.status(500).send({ status: "error", error: "Server Error" });
+    if (products.status === "server error")
+      return res.status(500).send({ status: "error", error: products.error });
     // Limit validations
     if (!limit || parseInt(limit) > products.length)
       return res.send({ status: "success", payload: products });

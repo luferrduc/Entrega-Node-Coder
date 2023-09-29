@@ -11,6 +11,10 @@ router
     const cart = await manager.getCartById(cid);
     if (cart.status === "error")
       return res.status(400).send({ status: "error", error: cart.error });
+
+    if(cart.status === "server error")
+      return res.status(500).send({ status: "error", error: cart.error });
+    
     return res.send({ status: "success", payload: cart });
   })
   .post("/", async (req, res) => {

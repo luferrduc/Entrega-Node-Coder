@@ -16,7 +16,7 @@ export default class ProductManager {
         return [];
       }
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}` };
     }
   };
 
@@ -24,6 +24,8 @@ export default class ProductManager {
   getProductById = async (id) => {
     try {
       const products = await this.getProducts();
+      if(!products.length) return { status: "error", error: "404 Not Found" };
+
       const productFound = products.find((product) => {
         return product.id === id;
       });
@@ -31,7 +33,7 @@ export default class ProductManager {
 
       return productFound;
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}` };
     }
   };
 
@@ -59,7 +61,7 @@ export default class ProductManager {
       return {
         status: "error",
         error:
-          "El producto no fue ingresado, todos los campos son obligatorios",
+          "The product was not created, all fields are required",
       };
     }
 
@@ -76,7 +78,7 @@ export default class ProductManager {
       if (productCode) {
         return {
           status: "error",
-          error: `A product already exists with this code`,
+          error: `Already exists a product with this code`,
         };
       }
       products.push(producto);
@@ -86,7 +88,7 @@ export default class ProductManager {
       );
       return producto;
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}` };
     }
   };
 
@@ -102,7 +104,7 @@ export default class ProductManager {
       return {status: "error", error: "Id is not defined"}
     }
     if (!producto) {
-      return {status: "error", error: "No se puede actualizar con un producto vacío"};
+      return {status: "error", error: "Cannot update with an empty product"};
     }
 
     try {
@@ -112,7 +114,7 @@ export default class ProductManager {
         return {status: "error", error: productFound.error};
       }
       const productCode = products.find((product) => product.code === code);
-      if (productCode) {
+      if (productCode && productCode.id !== id) {
         return {
           status: "error",
           error: "A product already exists with this code",
@@ -137,7 +139,7 @@ export default class ProductManager {
 
       return productFound;
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}` };
     }
   };
 
@@ -164,7 +166,7 @@ export default class ProductManager {
       return {products}
 
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}` };
     }
   };
 }

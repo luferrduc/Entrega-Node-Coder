@@ -35,7 +35,7 @@ export default class CartManager {
         return []
       }
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}`};
     }
   };
 
@@ -43,6 +43,8 @@ export default class CartManager {
   getCartById = async (id) => {
     try {
       const carts = await this.getCarts();
+      if(!carts.length) return { status: "error", error: "404 Not Found" };
+
       const cartFound = carts.find((cart) => {
         return cart.id === id;
       });
@@ -50,7 +52,7 @@ export default class CartManager {
 
       return cartFound;
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}` };
     }
   };
 
@@ -75,7 +77,7 @@ export default class CartManager {
  
       return cart;
     } catch (error) {
-      return { status: "server error", error: error.message };
+      return { status: "server error", error: `500 Server error - ${error.message}` };
     }
   };
 
