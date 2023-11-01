@@ -11,21 +11,41 @@ const manager = new ProductManager();
 router
   .get("/", async (req, res) => {
     try {
-      const { limit, page, sort, query } = req.query;
-      const products = await manager.getAll();
+      const { limit = 10, page=1, sort, query = {} } = req.query;
+      const options = {
+        limit,
+        page,
+        query
+      }
+
+      let sortLink = ""
+      if(sort?.toLowerCase() === "asc"){
+        options.sort = { price: 1 }
+        sortLink = `&sort=${sort}`
+      }else if(sort?.toLowerCase() === "desc"){
+        options.sort = { price: -1 }
+        sortLink = `&sort=${sort}`
+      }
+      // TODO: Ver la forma de usar un rest operator para obtener el resto de query params
+      // que no sean los que ya se tienen y ocupar eso como query para los filtros 
+
+
+      // const querys = ["title","description", "price", "code", "stock", "status"]
+      // if(querys.includes(query.toLowerCase())){
+      //   options.query = { [query] : query }
+      // }
+
+      const {docs: products, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages} = await manager.getAll(options);
       if (!products)
         return res.status(200).send({ status: "success", payload: [] });
-      // Limit validations
-      if (!limit || parseInt(limit) > products.length)
-        return res.send({ status: "success", payload: products });
-      if (parseInt(limit) < 0)
-        return res
-          .status(400)
-          .send({ status: "error", message: "Limit must be a positve number" });
+  
+      // const filteredProducts = products.slice(0, parseInt(limit));
+      const prevLink = hasPrevPage ? `/api/products?limit=${limit}&page=${prevPage}${sortLink}` : null
+      const nextLink = hasNextPage ? `/api/products?limit=${limit}&page=${nextPage}${sortLink}` : null
 
-      const filteredProducts = products.slice(0, parseInt(limit));
+      return res.send({ status: "success", payload: products, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink });
+      // return res.send({ status: "success", payload: filteredProducts });
 
-      return res.send({ status: "success", payload: filteredProducts });
     } catch (error) {
       return res.status(500).send({ status: "error", error: error.message });
     }

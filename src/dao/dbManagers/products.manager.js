@@ -2,8 +2,9 @@ import { productsModel } from "./models/products.model.js";
 
 export default class Products {
 
-    getAll = async() => {
-        const products = await productsModel.paginate({}, )
+    getAll = async({limit, page, sort, query}) => {
+
+        const products = await productsModel.paginate(query, {limit, page, sort, lean: true})
         return products
     }
     getById = async(id) => {
