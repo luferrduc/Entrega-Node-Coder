@@ -6,7 +6,7 @@ export default class ProductManager {
   }
 
   // GET ALL
-  getProducts = async () => {
+  getAll = async () => {
     try {
       if (fs.existsSync(this.path)) {
         const data = await fs.promises.readFile(this.path, "utf-8");
@@ -21,7 +21,7 @@ export default class ProductManager {
   };
 
   // GET BY ID
-  getProductById = async (id) => {
+  getById = async (id) => {
     try {
       const products = await this.getProducts();
       if(!products.length) return { status: "error", error: "404 Not Found" };
@@ -38,7 +38,7 @@ export default class ProductManager {
   };
 
   // ADD
-  addProduct = async ({
+  create = async ({
     title,
     description,
     price,
@@ -93,7 +93,7 @@ export default class ProductManager {
   };
 
   // UPDATE
-  updateProduct = async (
+  update = async (
     id,
     { title, description, price, thumbnail=[], code, stock, status=true }
   ) => {
@@ -144,7 +144,7 @@ export default class ProductManager {
   };
 
   // DELETE
-  deleteProduct = async (id) => {
+  delete = async (id) => {
 
     if(!id){
       return {status: "error", error: "Id is not defined"}

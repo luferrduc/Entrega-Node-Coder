@@ -1,6 +1,6 @@
 import fs from "node:fs";
-import { productsFilePath } from "../utils.js";
-import ProductManager from './ProductManager.js'
+import { productsFilePath } from "../../utils.js";
+import ProductManager from './product-file.manager.js'
 /*
 CARTS:
 [
@@ -25,7 +25,7 @@ export default class CartManager {
   }
 
   // GET ALL
-  getCarts = async () => {
+  getAll = async () => {
     try {
       if (fs.existsSync(this.path)) {
         const data = await fs.promises.readFile(this.path, "utf-8");
@@ -40,7 +40,7 @@ export default class CartManager {
   };
 
   // GET BY ID
-  getCartById = async (id) => {
+  getById = async (id) => {
     try {
       const carts = await this.getCarts();
       if(!carts.length) return { status: "error", error: "404 Not Found" };
@@ -57,7 +57,7 @@ export default class CartManager {
   };
 
   // ADD
-  addCart = async () => {
+  create = async () => {
     try {
       const cart = {}
       const carts = await this.getCarts();
@@ -81,7 +81,7 @@ export default class CartManager {
     }
   };
 
-  addProductToCart = async (cid, pid) => {
+  addProduct = async (cid, pid) => {
 
     const productManager = new ProductManager(productsFilePath)
     const carts = await this.getCarts()

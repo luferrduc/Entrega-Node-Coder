@@ -1,0 +1,72 @@
+[
+	{
+		"title": "Notebook Lenovo",
+		"description": "Notebook Lenovo última generación",
+		"price": 2000,
+		"thumbnail": [],
+		"code": "notebook-001",
+		"stock": 250,
+		"status": true,
+		"id": 1
+	},
+	{
+		"title": "HP OMEN 17",
+		"description": "Notebook HP OMEN 17, 16Gb RAM, 1TB SSD",
+		"price": 2800,
+		"thumbnail": [],
+		"code": "notebook-002",
+		"stock": 15,
+		"status": true,
+		"id": 2
+	},
+	{
+		"title": "HP ASUS ROG STRIX",
+		"description": "Notebook ASUS ROG STRIX, 32Gb RAM, 1TB SSD",
+		"price": 3200,
+		"thumbnail": [],
+		"code": "notebook-003",
+		"stock": 15,
+		"status": true,
+		"id": 3
+	},
+	{
+		"title": "MACBOOK PRO",
+		"description": "Notebook MACBOOK PRO, 16Gb RAM, 1TB SSD",
+		"price": 3600,
+		"thumbnail": [],
+		"code": "notebook-004",
+		"stock": 15,
+		"status": true,
+		"id": 4
+	},
+	{
+		"title": "ASUS TUF GAMING F17",
+		"description": "Notebook Asus TUF Gaming F17, 16Gb RAM, 1TB SSD",
+		"price": 3600,
+		"thumbnail": [],
+		"code": "notebook-005",
+		"stock": 12,
+		"status": true,
+		"id": 5
+	},
+	{
+		"title": "Macbook Air",
+		"description": "Nuevo Macbook air 2023",
+		"price": "2400",
+		"thumbnail": [],
+		"code": "notebook-006",
+		"stock": "12",
+		"status": true,
+		"id": 6
+	},
+	{
+		"title": "Dell Inspire 5",
+		"description": "Nuevo notebook Dell Inspire 5, 8Gb Ram",
+		"price": "1300",
+		"thumbnail": [],
+		"code": "notebook-007",
+		"stock": "12",
+		"status": true,
+		"id": 7
+	}
+]

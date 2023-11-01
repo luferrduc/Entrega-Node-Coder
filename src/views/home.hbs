@@ -1,0 +1,13 @@
+<div>
+    <h1>Vista productos</h1>
+    <div>
+        {{#each products}}
+            <section>
+                <h3>{{this.title}}</h3>
+                <span>{{this.code}}</span>
+                <p>{{this.description}}</p>
+                <p><span>$</span>{{this.price}}</p>
+            </section>
+        {{/each}}
+    </div>
+</div>
