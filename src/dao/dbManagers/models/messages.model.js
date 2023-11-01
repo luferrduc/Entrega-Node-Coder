@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const messagesCollection = "messages"
 
 const messagesSchema = new mongoose.Schema({
@@ -14,5 +15,6 @@ const messagesSchema = new mongoose.Schema({
         required: true
     }   
 })
+
 
 export const messagesModel = mongoose.model(messagesCollection, messagesSchema)

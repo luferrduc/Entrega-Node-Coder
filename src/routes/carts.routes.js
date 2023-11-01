@@ -1,7 +1,6 @@
 import { Router } from "express";
 // import ProductManager from "../dao/fileManagers/product-file.manager.js";
 import ProductManager from "../dao/dbManagers/products.manager.js";
-import { validateBody } from "../middlewares/validate-products.js";
 
 import { productsFilePath } from "../utils.js";
 
@@ -44,7 +43,7 @@ router
       return res.status(500).send({ status: "error", error: error.message });
     }
   })
-  .post("/", validateBody, async (req, res) => {
+  .post("/", async (req, res) => {
 
     try {
       const product = req.body;
@@ -62,7 +61,7 @@ router
       return res.status(500).send({ status: "error", error: error.message });
     }
   })
-  .put("/:pid", validateBody, async (req, res) => {
+  .put("/:pid", async (req, res) => {
     try {
       const { pid } = req.params;
       const product = req.body;
