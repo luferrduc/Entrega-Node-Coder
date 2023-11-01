@@ -11,8 +11,8 @@ const manager = new CartsManager();
 const productManager = new ProductManager();
 router
   .get("/:cid", async (req, res) => {
-    const cid = req.params.cid;
     try {
+      const cid = req.params.cid;
       const cart = await manager.getById(cid);
       if (!cart)
         return res
@@ -32,7 +32,7 @@ router
       return res.status(500).send({ status: "error", error: error.message });
     }
   })
-  .post("/:cid/product/:pid", async (req, res) => {
+  .post("/:cid/products/:pid", async (req, res) => {
     try {
       const { cid, pid } = req.params;
       const product = await productManager.getById(pid)
@@ -50,6 +50,34 @@ router
     } catch (error) {
       return res.status(500).send({ status: "error", error: error.message });
     }
-  });
+  })
+  .put("/:cid", async (req, res) => {
+    try {
+      
+    } catch (error) {
+      return res.status(500).send({ status: "error", error: error.message });
+    }
+  })
+  .put("/:cid/products/:pid", async (req, res) => {
+    try {
+      
+    } catch (error) {
+      return res.status(500).send({ status: "error", error: error.message });
+    }
+  })
+  .delete("/:cid/products/:pid", async (req, res) => {
+    try {
+      
+    } catch (error) {
+      return res.status(500).send({ status: "error", error: error.message });
+    }
+  })
+  .delete("/:cid", async (req, res) => {
+    try {
+      
+    } catch (error) {
+      return res.status(500).send({ status: "error", error: error.message });
+    }
+  })
 
 export default router;

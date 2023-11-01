@@ -9,7 +9,7 @@ export default class Carts {
   };
 
   getById = async (id) => {
-    const cart = await cartsModel.findById({ _id: id });
+    const cart = await cartsModel.findById({ _id: id }).lean()
     return cart;
   };
 
@@ -21,17 +21,18 @@ export default class Carts {
   addProduct = async (cid, pid) => {
     const cart = await cartsModel.findById({ _id: cid });
 
-
+    if(!cart) return null
+    
     if (cart?.products?.length > 0) {
-      const productIndex = cart.products?.findIndex((prod) => prod["_id"] == pid);
+      const productIndex = cart.products?.findIndex((prod) => prod["product"] == pid);
 
       if (productIndex === -1) {
-        cart.products?.push({ _id: pid, quantity: 1 });
+        cart.products?.push({ product: pid, quantity: 1 });
       } else {
         cart.products[productIndex].quantity = cart.products[productIndex].quantity+1
       }
     } else {
-      cart.products?.push({ _id: pid, quantity: 1 });
+      cart.products?.push({ product: pid, quantity: 1 });
   
     }
     const result = await cartsModel.updateOne({ _id: cid }, cart);

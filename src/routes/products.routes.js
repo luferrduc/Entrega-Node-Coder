@@ -11,13 +11,14 @@ const manager = new ProductManager();
 router
   .get("/", async (req, res) => {
     try {
-      const { limit = 10, page=1, sort, query = {} } = req.query;
+      const { limit = 10, page=1, sort, ...query  } = req.query;
       const options = {
         limit,
         page,
         query
       }
-
+      console.log(query)
+      console.log(options)
       let sortLink = ""
       if(sort?.toLowerCase() === "asc"){
         options.sort = { price: 1 }

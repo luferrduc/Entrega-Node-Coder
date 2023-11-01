@@ -3,12 +3,13 @@ import { productsModel } from "./models/products.model.js";
 export default class Products {
 
     getAll = async({limit, page, sort, query}) => {
-
+        console.log("manager", query)
         const products = await productsModel.paginate(query, {limit, page, sort, lean: true})
+        console.log(products)
         return products
     }
     getById = async(id) => {
-        const product = await productsModel.findOne({_id: id})
+        const product = await productsModel.findOne({_id: id}).lean()
         return product
     }
 
