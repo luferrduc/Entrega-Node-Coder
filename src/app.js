@@ -29,6 +29,9 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
 
+app.use((req, res)=> {
+  res.status(404).send({status:"error", message: "404 not found"})
+})
 
 // Database
 try {

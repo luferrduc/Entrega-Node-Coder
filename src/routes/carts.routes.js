@@ -53,8 +53,15 @@ router
 	})
 	.put("/:cid", async (req, res) => {
 		try {
+			const { cid } = req.params
+			const { products } = req.body
 			
-      
+			const updatedCart = await manager.updateCart(cid, products);
+			if (!updatedCart)
+				return res
+					.status(404)
+					.send({ status: "error", error: "Cart or product not found" });
+			return res.send({ status: "success", payload: updatedCart });
 		} catch (error) {
 			return res.status(500).send({ status: "error", error: error.message });
 		}

@@ -33,12 +33,6 @@ const cartsSchema = new mongoose.Schema({
 	}
 });
 
-// {
-//     product: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: 'products'
-//     }
-// }
 cartsSchema.pre(["find", "findById", "findOne"], function () {
 	this.populate("products.product");
 });

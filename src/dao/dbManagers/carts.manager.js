@@ -80,7 +80,10 @@ export default class Carts {
   }
 
   updateCart = async (cid, products) => {
-
+    const result = await cartsModel.updateOne({ _id: cid }, { $set: { products: products }})    
+    const cartUpdated = await cartsModel.findById({ _id: cid })
+    return cartUpdated
+    
   }
 
 }
