@@ -11,14 +11,12 @@ const manager = new ProductManager();
 router
   .get("/", async (req, res) => {
     try {
-      const { limit = 10, page=1, sort, ...query  } = req.query;
+      const { limit = 10, page=1, sort, query: queryP, queryValue } = req.query;
       const options = {
         limit,
         page,
-        query
+        query: {}
       }
-      console.log(query)
-      console.log(options)
       let sortLink = ""
       if(sort?.toLowerCase() === "asc"){
         options.sort = { price: 1 }
@@ -27,26 +25,17 @@ router
         options.sort = { price: -1 }
         sortLink = `&sort=${sort}`
       }
-      // TODO: Ver la forma de usar un rest operator para obtener el resto de query params
-      // que no sean los que ya se tienen y ocupar eso como query para los filtros 
-
-
-      // const querys = ["title","description", "price", "code", "stock", "status"]
-      // if(querys.includes(query.toLowerCase())){
-      //   options.query = { [query] : query }
-      // }
-
+      if(queryP && queryValue){
+        options.query[queryP] = queryValue
+      } 
       const {docs: products, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages} = await manager.getAll(options);
       if (!products)
         return res.status(200).send({ status: "success", payload: [] });
   
-      // const filteredProducts = products.slice(0, parseInt(limit));
       const prevLink = hasPrevPage ? `/api/products?limit=${limit}&page=${prevPage}${sortLink}` : null
       const nextLink = hasNextPage ? `/api/products?limit=${limit}&page=${nextPage}${sortLink}` : null
 
       return res.send({ status: "success", payload: products, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink });
-      // return res.send({ status: "success", payload: filteredProducts });
-
     } catch (error) {
       return res.status(500).send({ status: "error", error: error.message });
     }

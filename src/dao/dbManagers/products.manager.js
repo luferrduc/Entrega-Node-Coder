@@ -3,7 +3,13 @@ import { productsModel } from "./models/products.model.js";
 export default class Products {
 
     getAll = async({limit, page, sort, query}) => {
-        console.log("manager", query)
+        const key = Object.keys(query)[0]
+        const value = Object.values(query)[0]
+        if(key === 'stock'){
+          query = {
+            [key]: {$gte: value}
+          }
+        }
         const products = await productsModel.paginate(query, {limit, page, sort, lean: true})
         console.log(products)
         return products

@@ -67,7 +67,8 @@ router
   })
   .delete("/:cid/products/:pid", async (req, res) => {
     try {
-      
+      const { pid, cid } = req.params
+      const result = await CartsManager.deleteProductCart(cid, pid)
     } catch (error) {
       return res.status(500).send({ status: "error", error: error.message });
     }

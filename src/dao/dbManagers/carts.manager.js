@@ -39,4 +39,23 @@ export default class Carts {
 
     return cart;
   };
+
+  deleteProductCart = async (cid, pid) => {
+    // const cart = await cartsModel.findById({ _id: cid })
+    const result = await cartsModel.updateOne({ _id: cid }, { $pull: { products: { product: { _id: pid }}}})    
+    return result
+  }
+
+  deleteProducts = async (cid) => {
+
+  }
+
+  updateQuantityProduct = async (cid, pid, quantity) => {
+
+  }
+
+  updateCart = async (cid, products) => {
+
+  }
+
 }
