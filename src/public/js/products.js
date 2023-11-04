@@ -27,7 +27,7 @@ form.addEventListener("submit", async (evt) => {
     });
     if (result.status === 400) return alert("Rellenar los campos");
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 });
 

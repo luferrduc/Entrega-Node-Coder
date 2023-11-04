@@ -36,8 +36,8 @@ export default class Carts {
   
     }
     const result = await cartsModel.updateOne({ _id: cid }, cart);
-
-    return cart;
+    const updated = await cartsModel.findById({ _id: cid });
+    return updated;
   };
 
   deleteProductCart = async (cid, pid) => {
@@ -55,7 +55,6 @@ export default class Carts {
 
   deleteProducts = async (cid) => {
     const cart = await cartsModel.findById({ _id: cid })
-    console.log(cart)
     if (cart?.products?.length === 0){
       throw new Error("Not Found: There are no products in the cart")
     }else{
@@ -73,7 +72,6 @@ export default class Carts {
       const productIndex = cart.products?.findIndex((prod) => prod.product["_id"] == pid)
       if(productIndex === -1) throw new Error("Product not found in this cart")
       const result = await cartsModel.updateOne({$and: [{ _id: cid }, {products: { product: {_id: pid} }}]}, { $inc: { products: { product: { _id:  {quantity: quantity }}}}})    
-      console.log(result)
       const cartUpdated = await cartsModel.findOne({$and: [{ _id: cid }, {"products.product": pid}]})
       return cartUpdated
     }

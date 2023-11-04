@@ -58,7 +58,7 @@ router
     try {
       const product = req.body;
       const io = req.app.get("socketio");
-      const { title, description, price, thumbnail, code, category,stock, status } =
+      const { title, description, price, thumbnail, code, category, stock, status } =
         product;
       if (!title || !description || !price || !code || !stock || !category)
         return res

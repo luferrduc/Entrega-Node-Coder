@@ -17,10 +17,9 @@ form.addEventListener("submit", async (evt) => {
         "Content-Type": "application/json; charset=UTF-8",
       },
     });
-    console.log(result);
     if (result.status === 400) return alert("Rellenar los campos");
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 });
 
@@ -38,7 +37,6 @@ botones.forEach((boton) => {
 })
 
 socket.on("refreshProducts", (data) => {
-  console.log(data)
   container.innerHTML = ``;
   data.forEach((product) => {
     container.innerHTML += `

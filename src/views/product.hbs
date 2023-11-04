@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Producto </h1>
+  <div class="product-card">
+    <img src="" alt="Imagen referencial del producto">
+    <div class="product-card-body" id={{product._id}}>
+      <p style="font-weight: bold;">{{product.title}}</p>
+      <p>{{product.description}}</p>
+      <p><span>Categoría</span>{{product.category}}</p>
+      <p><span>Precio: $</span>{{product.price}}</p>
+      <p><span>Stock: </span>{{product.stock}}</p>
+      <button
+					id="add-button"				
+					style="background-color: rgb(0, 150, 37); padding:5px 10px; border-radius:25px; cursor:pointer; font-weight:bold"
+				>Agregar carrito</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/product.js"></script>

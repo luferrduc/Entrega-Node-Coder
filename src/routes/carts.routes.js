@@ -88,7 +88,6 @@ router
 					.send({ status: "error", error: "Quantity is required" });
 
       const updatedQuantityCart = await manager.updateQuantityProduct(cid, pid, quantity)
-      console.log(updatedQuantityCart)
       return res.send({ status: "success", payload: updatedQuantityCart });
 		} catch (error) {
 			return res.status(500).send({ status: "error", error: error.message });

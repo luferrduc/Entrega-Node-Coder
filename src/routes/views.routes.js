@@ -12,10 +12,10 @@ const cartsManager = new CartManaget();
 const messageManager = new MessagesManager();
 
 // Vista para mostrar productos sin WebSockets
-router.get("/", async (req, res) => {
-	const productsList = await productManager.getAll();
-	res.render("home", { products: productsList });
-});
+// router.get("/", async (req, res) => {
+// 	const productsList = await productManager.getAll();
+// 	res.render("home", { products: productsList });
+// });
 
 // Vista para mostrar productos en tiempo real con WebSockets
 router.get("/realtimeproducts", async (req, res) => {
@@ -72,13 +72,7 @@ router.get("/products", async (req, res) => {
 			queryLink = `&query=${queryP}&queryValue=${queryValue}`
 		}
 
-		console.log(options)
 		const {docs: productsList, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages} = await productManager.getAll(options);
-		console.log({	hasPrevPage,
-			hasNextPage,
-			nextPage,
-			prevPage,
-			totalPages})
 		const prevLink = hasPrevPage
 			? `/products?limit=${limit}&page=${prevPage}${sortLink}${queryLink}`
 			: null;
@@ -97,6 +91,22 @@ router.get("/products", async (req, res) => {
 			prevLink,
 			nextLink,
 			style: "products.css"
+		});
+	} catch (error) {
+		return res.status(500).render(`<h2>Error 500: ${error.message}</h2>`);
+	}
+});
+router.get("/products/:pid", async (req, res) => {
+	try {
+		const { pid } = req.params;
+		const product = await productManager.getById(pid);
+		if (!product)
+			return res
+				.status(400)
+				.render(`<h2>Error 404: Product with id ${pid} not found </h2>`);
+		return res.render("product", {
+			product,
+			style: "product.css"
 		});
 	} catch (error) {
 		return res.status(500).render(`<h2>Error 500: ${error.message}</h2>`);
