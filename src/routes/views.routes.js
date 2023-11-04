@@ -110,9 +110,9 @@ router.get("/carts/:cid", async (req, res) => {
 			return res
 				.status(400)
 				.render(`<h2>Error 404: Cart with id ${cid} not found </h2>`);
-
+		const products = cart.products
 		return res.render("cart", {
-			cart,
+			products,
 			style: "cart.css"
 		});
 	} catch (error) {

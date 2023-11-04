@@ -1,6 +1,9 @@
 <div>
-  {{#each cart.products}}
-    <p>{{this._id}}</p>
-    <p>{{this.quantity}}</p>
+  {{#each products}}
+    <p>Título: {{this.product.title}}</p>
+    <p>Descripción: {{this.product.description}}</p>
+    <p>Precio: {{this.product.price}}</p>
+    <p>Categoría: {{this.product.category}}</p>
+    <p>Cantidad: {{this.quantity}}</p>
   {{/each}}
 </div>

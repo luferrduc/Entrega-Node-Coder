@@ -41,23 +41,28 @@ async function handleButtonClick(e){
   }
   if(target.className === "add-button"){
     try {
-      const data = await fetch(`/api/carts`, {
+      const resultCart = await fetch(`/api/carts`, {
         method: "POST",
         body: "",
         headers: {
           "Content-Type" : "application/json"
         }
       })
-      console.log(data.body)
-      // const cartId = data["id"]
-      // const result = await fetch(`/api/carts/${cartId}/products/${id}`, {
-      //   method: "POST",
-      //   body: "",
-      //   headers: {
-      //     "Content-Type" : "application/json"
-      //   }
-      // });
-
+      const { payload } = await resultCart.json()
+      const cartId = payload["_id"]
+      const result = await fetch(`/api/carts/${cartId}/products/${id}`, {
+        method: "POST",
+        body: "",
+        headers: {
+          "Content-Type" : "application/json"
+        }
+      });
+      const data = await result.json()
+      if(data.status === "error"){
+        console.error(data.message)
+      }else{
+        alert("Producto agregado correctamente")
+      }
     } catch (error) {
       console.log(error.message)
     }
