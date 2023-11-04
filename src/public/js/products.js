@@ -73,9 +73,9 @@ botonesAdd.forEach((boton) => {
 
 
 
-socket.on("refreshProducts", async (data) => {
+socket.on("refreshProducts", (data) => {
   container.innerHTML = ``;
-  await data.forEach((product) => {
+    data.forEach((product) => {
     container.innerHTML += `
     <section style="padding: 1.5rem;" id=${product._id}>
     <div
