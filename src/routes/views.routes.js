@@ -46,7 +46,7 @@ router.get("/realtimeproducts", async (req, res) => {
 			prevPage
 		});
 	} catch (error) {
-		return res.status(500).render(`<h2>Error 500: ${error.message}</h2>`);
+		return res.status(500).send(`<h2>Error 500: ${error.message}</h2>`);
 	}
 });
 router.get("/products", async (req, res) => {
@@ -92,7 +92,7 @@ router.get("/products", async (req, res) => {
 			style: "products.css"
 		});
 	} catch (error) {
-		return res.status(500).render(`<h2>Error 500: ${error.message}</h2>`);
+		return res.status(500).send(`<h2>Error 500: ${error.message} </h2>`);
 	}
 });
 router.get("/products/:pid", async (req, res) => {
@@ -108,7 +108,7 @@ router.get("/products/:pid", async (req, res) => {
 			style: "product.css"
 		});
 	} catch (error) {
-		return res.status(500).render(`<h2>Error 500: ${error.message}</h2>`);
+		return res.status(500).send(`<h2>Error 500: ${error.message} </h2>`);
 	}
 });
 router.get("/carts/:cid", async (req, res) => {
@@ -125,7 +125,7 @@ router.get("/carts/:cid", async (req, res) => {
 			style: "cart.css"
 		});
 	} catch (error) {
-		return res.status(500).render(`<h2>Error 500: ${error.message}</h2>`);
+		return res.status(500).send(`<h2>Error 500: ${error.message}</h2>`);
 	}
 });
 // Vista para entregar los mensajes y la hoja de estilos
