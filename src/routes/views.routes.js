@@ -51,12 +51,12 @@ router.get("/realtimeproducts", async (req, res) => {
 });
 router.get("/products", async (req, res) => {
 	try {
-		const { limit = 10, page = 1, sort, query = {} } = req.query;
+		const { limit = 10, page=1, sort, query: queryP, queryValue } = req.query;
 		const options = {
 			limit,
 			page,
-			query
-		};
+			query: {}
+		}
 
 		let sortLink = "";
 		if (sort?.toLowerCase() === "asc") {
@@ -66,21 +66,24 @@ router.get("/products", async (req, res) => {
 			options.sort = { price: -1 };
 			sortLink = `&sort=${sort}`;
 		}
+		let queryLink = ""
+		if(queryP && queryValue){
+			options.query[queryP] = queryValue
+			queryLink = `&query=${queryP}&queryValue=${queryValue}`
+		}
 
-		const {
-			docs: productsList,
-			hasPrevPage,
+		console.log(options)
+		const {docs: productsList, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages} = await productManager.getAll(options);
+		console.log({	hasPrevPage,
 			hasNextPage,
 			nextPage,
 			prevPage,
-			totalPages
-		} = await productManager.getAll(options);
-
+			totalPages})
 		const prevLink = hasPrevPage
-			? `/api/products?limit=${limit}&page=${prevPage}${sortLink}`
+			? `/products?limit=${limit}&page=${prevPage}${sortLink}${queryLink}`
 			: null;
 		const nextLink = hasNextPage
-			? `/api/products?limit=${limit}&page=${nextPage}${sortLink}`
+			? `/products?limit=${limit}&page=${nextPage}${sortLink}${queryLink}`
 			: null;
 
 		res.render("products", {
