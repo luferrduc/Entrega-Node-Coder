@@ -7,12 +7,6 @@ const paginator = document.getElementById("paginator")
 const botonesAdd = document.querySelectorAll(".add-button")
 
 
-// document.addEventListener("DOMContentLoaded", async (e) => {
-
-// })
-
-
-
 form.addEventListener("submit", async (evt) => {
   evt.preventDefault();
   const data = Object.fromEntries(new FormData(evt.target));
@@ -79,28 +73,22 @@ botonesAdd.forEach((boton) => {
 
 
 
-socket.on("refreshProducts", (data) => {
+socket.on("refreshProducts", async (data) => {
   container.innerHTML = ``;
-  data.forEach((product) => {
+  await data.forEach((product) => {
     container.innerHTML += `
-    <section style="padding: 1.5rem" id=${product.id}>
-      <div style="display: flex; flex-direction: column; gap: 10px; padding-bottom:0.8rem">
-          <h3 style="margin-bottom: 0;">title: ${product.title}</h3> 
-          <p style="margin: 0;">code: ${product.code}</p>
-          <p style="margin: 0;">description: ${product.description}</p>
-          <span style="margin: 0;">price: $${product.price}</span>
-          <p style="margin: 0;">status: ${product.status}</p>
-          <span style="margin: 0;">stock: ${product.stock}</span>
-      </div>
-      <button
-      class="delete-button"	
-      style="background-color: red; padding:5px 10px; border-radius:25px; cursor:pointer; font-weight:bold"
-    >Eliminar</button>
-    <button
-    class="add-button"				
-    style="background-color: rgb(0, 150, 37)(0, 255, 64); padding:5px 10px; border-radius:25px; cursor:pointer; font-weight:bold"
-    >Agregar carrito</button>
-    </section>
+    <section style="padding: 1.5rem;" id=${product._id}>
+    <div
+      style="display: flex; flex-direction: column; gap: 25px; padding-bottom:0.8rem; height: 15rem; margin-bottom: 5px"
+    >
+      <h3 style="margin-bottom: 0;">title: ${product.title}</h3>
+      <p style="margin: 0;">code: ${product.code}</p>
+      <p style="margin: 0;">description: ${product.description}</p>
+      <a href="/products/${product._id}" class="detalle-link">ver detalle</a>
+    </div>
+    <button class="delete-button">Eliminar</button>
+    <button class="add-button">Agregar carrito</button>
+  </section>
     `;
   });
 });

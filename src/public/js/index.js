@@ -17,7 +17,7 @@ form.addEventListener("submit", async (evt) => {
         "Content-Type": "application/json; charset=UTF-8",
       },
     });
-    if (result.status === 400) return alert("Rellenar los campos");
+    if (result.status === 400) return ("Rellenar los campos");
   } catch (error) {
     console.log(error.message);
   }

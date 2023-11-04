@@ -54,7 +54,11 @@ router
     }
   })
   .post("/", async (req, res) => {
-
+    const options = {
+      limit: 10,
+      page: 1,
+      query: {}
+    }
     try {
       const product = req.body;
       const io = req.app.get("socketio");
@@ -65,7 +69,8 @@ router
           .status(400)
           .send({ status: "error", error: "Incomplete values" });
       const newProduct = await manager.create(product);
-      io.emit("refreshProducts", await manager.getAll());
+      const {docs: productsEmit} = await manager.getAll(options)
+      io.emit("refreshProducts", productsEmit);
       return res.send({ status: "success", payload: newProduct });
     } catch (error) {
       return res.status(500).send({ status: "error", error: error.message });
@@ -100,7 +105,11 @@ router
   .delete("/:pid", async (req, res) => {
     try {
       const { pid } = req.params;
-     
+      const options = {
+        limit: 10,
+        page: 1,
+        query: {}
+      }
       const io = req.app.get("socketio");
       const deletedProduct = await manager.delete(pid);
       if (deletedProduct.deletedCount === 0)
@@ -108,7 +117,8 @@ router
           .status(400)
           .send({ status: "error", error: "Product not found, incorrect id" });
   
-      io.emit("refreshProducts", await manager.getAll());
+      const {docs: productsEmit} = await manager.getAll(options)
+      io.emit("refreshProducts", productsEmit);
       return res.send({ status: "success", payload: "Product deleted succesfully" });
     } catch (error) {
       return res.status(500).send({ status: "error", error: error.message });

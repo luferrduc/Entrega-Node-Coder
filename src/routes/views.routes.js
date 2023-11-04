@@ -79,7 +79,6 @@ router.get("/products", async (req, res) => {
 		const nextLink = hasNextPage
 			? `/products?limit=${limit}&page=${nextPage}${sortLink}${queryLink}`
 			: null;
-
 		res.render("products", {
 			products: productsList,
 			totalPages,

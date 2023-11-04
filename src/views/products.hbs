@@ -14,9 +14,11 @@
 			<input type="text" name="description" id="description" />
 			<label for="">Código</label>
 			<input type="text" name="code" id="code" />
-			<label for="">Precio</label>
+			<label for="category">Categoría</label>
+			<input type="text" name="category" id="category" />
+			<label for="price">Precio</label>
 			<input type="number" name="price" id="price" />
-			<label for="">Stock</label>
+			<label for="stock">Stock</label>
 			<input type="number" name="stock" id="stock" />
 			<div style="text-align: center;">
 				<button type="submit" style="padding: 5px 10px">Enviar</button>
@@ -29,41 +31,36 @@
 		style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) ; gap:20px; padding: 2rem 5rem;"
 	>
 		{{#each products}}
-			<section style="padding: 1.5rem" id={{this.id}}>
+			<section style="padding: 1.5rem;" id={{this.id}}>
 				<div
-					style="display: flex; flex-direction: column; gap: 10px; padding-bottom:0.8rem"
+					style="display: flex; flex-direction: column; gap: 25px; padding-bottom:0.8rem; height: 15rem; margin-bottom: 5px"
 				>
 					<h3 style="margin-bottom: 0;">title: {{this.title}}</h3>
 					<p style="margin: 0;">code: {{this.code}}</p>
 					<p style="margin: 0;">description: {{this.description}}</p>
-					<span style="margin: 0;">price: ${{this.price}}</span>
-					<p style="margin: 0;">status: {{this.status}}</p>
-					<span style="margin: 0;">stock: {{this.stock}}</span>
+					<a href="/products/{{this._id}}" class="detalle-link">ver detalle</a>
 				</div>
-				<button
-					class="delete-button"	
-					style="background-color: red; padding:5px 10px; border-radius:25px; cursor:pointer; font-weight:bold"
-				>Eliminar</button>
-                <button
-					class="add-button"				
-					style="background-color: rgb(0, 150, 37)(0, 255, 64); padding:5px 10px; border-radius:25px; cursor:pointer; font-weight:bold"
-				>Agregar carrito</button>
+				<button class="delete-button">Eliminar</button>
+				<button class="add-button">Agregar carrito</button>
 			</section>
 		{{/each}}
 
 	</div>
-	<div class="paginator" id="paginator" style="text-align: center; padding: 30px 25px">
-
-        {{#if hasPrevPage}}
-		<a href={{prevLink}}><button>Atrás</button></a>
-        {{else}}
-		<a><button disabled>Atrás</button></a>
-        {{/if}}
-        {{#if hasPrevPage}}
-		<a href={{nextLink}}><button>Siguiente</button></a>
-        {{else}}
-        <a><button disabled>Siguiente</button></a>
-        {{/if}}
+	<div
+		class="paginator"
+		id="paginator"
+		style="text-align: center; padding: 30px 25px; "
+	>
+		{{#if hasPrevPage}}
+			<a href={{prevLink}}><button class="page-button">Atrás</button></a>
+		{{else}}
+			<a><button class="page-button" disabled>Atrás</button></a>
+		{{/if}}
+		{{#if hasNextPage}}
+			<a href={{nextLink}}><button class="page-button">Siguiente</button></a>
+		{{else}}
+			<a><button class="page-button" disabled>Siguiente</button></a>
+		{{/if}}
 	</div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
