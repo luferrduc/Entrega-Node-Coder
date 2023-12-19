@@ -19,9 +19,14 @@ form.addEventListener("submit", async (evt) => {
         "Content-Type": "application/json; charset=UTF-8",
       },
     });
-    if (result.status === 400) return alert("Rellenar los campos");
+    if (result.status === 400){
+
+      const data = await result.json()
+      return alert(data.message);
+    }
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
+    return alert("Error en el servidor");
   }
 });
 
@@ -53,12 +58,12 @@ async function handleButtonClick(e){
       });
       const data = await result.json()
       if(data.status === "error"){
-        console.error(data.message)
+        // console.error(data.message)
       }else{
         alert("Producto agregado correctamente")
       }
     } catch (error) {
-      console.log(error.message)
+      console.error(error.message)
     }
   }
 }

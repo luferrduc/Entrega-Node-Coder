@@ -2,19 +2,6 @@ import { productsModel } from "./models/products.model.js";
 
 export default class Products {
 	getAll = async ({ limit, page, sort, query }) => {
-		const key = Object.keys(query)[0];
-		const value = Object.values(query)[0];
-		if (key.toLowerCase() === "stock") {
-			query = {
-				[key.toLowerCase()]: { $gte: value }
-			};
-		} else if (key.toLowerCase() === "category") {
-			query = {
-				[key.toLowerCase()]: { $regex: value, $options: "i" }
-			};
-		}else{
-             query = {}
-        }
 		const products = await productsModel.paginate(query, {
 			limit,
 			page,

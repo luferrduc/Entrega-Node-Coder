@@ -2,7 +2,19 @@
 	<div
 		style="display: flex; flex-direction:column; justify-content:center; align-items:center"
 	>
+		<div>
+			<h2>Bienvenido {{user.first_name}} {{user.last_name}} (<span>rol: {{user.role}}</span>)</h2>
+			
+		</div>
 		<h3 style="font-size: 2.5rem;">Formulario ingreso productos</h3>
+		<a
+			href="/api/sessions/logout"
+			style="position: absolute; right: 10px; top: 10px"
+		><button>Salir</button></a>
+				<a
+			href="/"
+			style="position: absolute; left: 10px; top: 10px"
+		><button>Perfil</button></a>
 		<form
 			action="/api/products/"
 			id="product-form"
@@ -28,14 +40,14 @@
 	<h1 style="text-align: center;">Productos en tiempo real</h1>
 	<div
 		id="container"
-		style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) ; gap:20px; padding: 2rem 5rem;"
+		style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding: 2rem 5rem;"
 	>
 		{{#each products}}
 			<section style="padding: 1.5rem;" id={{this.id}}>
 				<div
 					style="display: flex; flex-direction: column; gap: 25px; padding-bottom:0.8rem; height: 15rem; margin-bottom: 5px"
 				>
-					<h3 style="margin-bottom: 0;">title: {{this.title}}</h3>
+					<h3 style="margin-bottom: 0;">{{this.title}}</h3>
 					<p style="margin: 0;">code: {{this.code}}</p>
 					<p style="margin: 0;">description: {{this.description}}</p>
 					<a href="/products/{{this._id}}" class="detalle-link">ver detalle</a>
