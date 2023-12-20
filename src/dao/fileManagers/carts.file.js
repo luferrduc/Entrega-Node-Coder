@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { productsFilePath } from "../../utils.js";
-import ProductManager from './product-file.manager.js'
+import ProductManager from './products.file.js'
 /*
 CARTS:
 [

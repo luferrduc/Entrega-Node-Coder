@@ -60,7 +60,7 @@ router
 	.get(
 		"/chat",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePolicies([accessRolesEnum.USER]),
 		generateCustomResponse,
 		chat
 	)
