@@ -115,3 +115,7 @@ export const deleteProduct = async (req, res) => {
     return res.sendServerError(error.message);
   }
 }
+
+export const purchaseProducts = async (req, res) => {
+  
+}
