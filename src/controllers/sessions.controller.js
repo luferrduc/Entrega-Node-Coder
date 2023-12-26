@@ -1,8 +1,11 @@
 import { generateToken, createHash, isValidPassowrd } from "../utils.js";
 import { validateUser } from "../schemas/users.schema.js";
 import { login as loginServices } from "../services/sessions.services.js";
+import { showPublicUser as showPublicUserServices } from "../services/sessions.services.js";
 import { logout as logoutServices } from "../services/sessions.services.js";
 import { register as registerServices } from "../services/sessions.services.js";
+import { createCart as createCartServices } from "../services/carts.services.js";
+
 
 export const login = async (req, res) => {
 	try {
@@ -32,10 +35,12 @@ export const login = async (req, res) => {
 
 		if(!comparePassword) return res.sendAuthError("incorrect credentials")
 
-		delete user.password;
-		delete user["_id"];
+		const cartId = await createCartServices()
+		
+		const publicUser = await showPublicUserServices(user)
+		publicUser.cart = cartId
 
-		const accessToken = generateToken(user);
+		const accessToken = generateToken(publicUser);
 
 		res.cookie("coderCookieToken", accessToken, {
 			maxAge: 24 * 60 * 60 * 1000,

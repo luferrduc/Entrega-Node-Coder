@@ -7,17 +7,6 @@ loginForm.addEventListener('submit', (e) => {
   data.forEach((value, key) => {
     obj[key] = value
   })
-
-  const cartId = fetch(`/api/carts`, {
-    method: "POST",
-    body: "",
-    headers: {
-      "Content-Type" : "application/json"
-    }
-  }).then(result => result.json())
-  .then(cart => obj.cart = cart["_id"])
-
-  console.log(cartId)
   
   fetch('/api/sessions/login', {
     method: "POST",

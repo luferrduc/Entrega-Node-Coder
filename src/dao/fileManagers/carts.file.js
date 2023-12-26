@@ -94,4 +94,8 @@ export default class CartManager {
 
 		return carts;
 	};
+
+	updateQuantityProduct = async (cid, pid, quantity) => {
+		
+	}
 }

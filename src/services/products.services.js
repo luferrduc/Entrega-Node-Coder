@@ -1,7 +1,9 @@
 import Products from "../dao/dbManagers/products.manager.js";
 import { productsFilePath } from "../utils.js";
+import ProductsRepository from "../repositories/products.repository.js";
 
 const productsManager = new Products();
+const productsRepository = new ProductsRepository()
 
 export const getProducts = async (options, sort, queryP, queryValue) => {
 
@@ -39,7 +41,7 @@ export const getProducts = async (options, sort, queryP, queryValue) => {
 		nextPage,
 		prevPage,
 		totalPages
-	} = await productsManager.getAll(options);
+	} = await productsRepository.getAll(options);
 	return {
     products,
     hasPrevPage,
@@ -54,21 +56,21 @@ export const getProducts = async (options, sort, queryP, queryValue) => {
 };
 
 export const getProduct = async (pid) => {
-	const product = productsManager.getById(pid)
+	const product = productsRepository.getById(pid)
 	return product
 };
 
 export const createProduct = async (product) => {
-	const result = productsManager.create(product)
+	const result = productsRepository.create(product)
 	return result
 };
 
 export const updateProduct = async (pid, product) => {
-	const updatedProduct = await productsManager.update(pid, product);
+	const updatedProduct = await productsRepository.update(pid, product);
 	return updatedProduct
 };
 
 export const deleteProduct = async (pid) => {
-	const deletedProduct = await productsManager.delete(pid);
+	const deletedProduct = await productsRepository.delete(pid);
 	return deletedProduct
 };

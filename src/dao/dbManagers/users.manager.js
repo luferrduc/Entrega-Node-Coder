@@ -26,7 +26,7 @@ export default class Users {
 		return result;
 	};
 
-	deleteCartFromUser = async ({email}) => {
+	deleteCartFromUser = async (email) => {
 		const user = await usersModel.findOne({email}).lean()
 		if(user?.cart){
 			delete user?.cart
