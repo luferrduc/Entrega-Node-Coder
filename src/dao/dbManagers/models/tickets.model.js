@@ -8,8 +8,8 @@ const ticketsSchema = new mongoose.Schema({
     unique: true
   },
   purchase_datetime: {
-    type: Date,
-    default: Date.now()
+    type: String,
+    default: Date.now().toLocaleString()
   },
   amount: {
     type: Number

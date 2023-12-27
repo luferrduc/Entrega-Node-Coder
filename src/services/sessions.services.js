@@ -16,6 +16,11 @@ export const showPublicUser = async (user) => {
   return publicUser
 }
 
+export const addCartToUser = async (user, cartId) => {
+  const newUser = await userRepository.addCartToUser(user, cartId)
+  return newUser
+}
+
 export const register = async (user) => {
   const hashedPassword = createHash(user.password);
   const newUser = { ...user };

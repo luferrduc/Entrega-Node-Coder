@@ -1,6 +1,6 @@
 import { generateToken, createHash, isValidPassowrd } from "../utils.js";
 import { validateUser } from "../schemas/users.schema.js";
-import { login as loginServices } from "../services/sessions.services.js";
+import { addCartToUser, login as loginServices } from "../services/sessions.services.js";
 import { showPublicUser as showPublicUserServices } from "../services/sessions.services.js";
 import { logout as logoutServices } from "../services/sessions.services.js";
 import { register as registerServices } from "../services/sessions.services.js";
@@ -28,17 +28,23 @@ export const login = async (req, res) => {
 			});
 			return res.sendSuccess(accessToken);
 		}
-		const user = await loginServices(email);
+		let user = await loginServices(email);
 		if(!user) return res.sendAuthError("incorrect credentials")
 
 		const comparePassword = isValidPassowrd(password, user.password);
 
 		if(!comparePassword) return res.sendAuthError("incorrect credentials")
 
-		const cartId = await createCartServices()
+		let cartId
+		
+		if(!user.cart){
+			cartId = await createCartServices()
+			user = await addCartToUser(user, cartId)
+		}
+		
 		
 		const publicUser = await showPublicUserServices(user)
-		publicUser.cart = cartId
+		// publicUser.cart = cartId
 
 		const accessToken = generateToken(publicUser);
 

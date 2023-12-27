@@ -30,7 +30,9 @@ export const createCart = async (req, res) => {
 }
 export const addProduct = async (req, res) => {
   try {
-    const { cid, pid } = req.params;
+    const { pid } = req.params;
+    
+    const cid = req.user.cart
     const product = await getProductServices(pid)
     if(!product) return res.sendNotFoundError("Product not found")
 

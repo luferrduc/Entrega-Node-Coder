@@ -52,6 +52,7 @@ export const realTimeProductsView = async (req, res) => {
 
 export const productsView = async (req, res) => {
   try {
+    console.log(req.user)
     const { limit = 10, page = 1, sort, query: queryP, queryValue } = req.query;
     const options = {
       limit,

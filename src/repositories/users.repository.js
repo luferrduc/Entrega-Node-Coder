@@ -15,6 +15,12 @@ export default class UsersRepository {
     return finalUser
   }
 
+	addCartToUser = async (user, cartId) => {
+		
+		const result = await this.dao.addCartToUser(user, cartId)
+		return result
+	}
+
 	register = async (newUser) => {
 		const result = await this.dao.create(newUser);
 		return result;

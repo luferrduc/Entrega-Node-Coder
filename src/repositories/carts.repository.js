@@ -35,10 +35,12 @@ export default class CartsRepository {
 		return result;
 	};
 
-  deleteProduct = async (cid, pid) => {
+  deleteProductCart = async (cid, pid) => {
     const result = await this.dao.deleteProductCart(cid, pid);
     return result
   };
 
-	purchaseProducts = async (cid, user) => {};
+	purchaseProducts = async (cid, user) => {
+		
+	};
 }
