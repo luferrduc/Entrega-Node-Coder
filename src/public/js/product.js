@@ -4,13 +4,13 @@ async function handleClick(e) {
 	const target = e.target;
 	const id = target.parentElement.id;
 	try {
-		const resultCart = await fetch(`/api/carts`, {
-			method: "POST",
-			body: "",
+		const resultCart = await fetch(`/api/sessions/user-cart`, {
+			method: "GET",
 			headers: {
-				"Content-Type": "application/json"
+				"Content-Type" : "application/json"
 			}
-		});
+		})
+		
 		const { payload } = await resultCart.json();
 		const cartId = payload["_id"];
 		const result = await fetch(`/api/carts/${cartId}/products/${id}`, {

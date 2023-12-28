@@ -52,7 +52,6 @@ export const realTimeProductsView = async (req, res) => {
 
 export const productsView = async (req, res) => {
   try {
-    console.log(req.user)
     const { limit = 10, page = 1, sort, query: queryP, queryValue } = req.query;
     const options = {
       limit,
@@ -126,7 +125,9 @@ export const productDetail = async (req, res) => {
 
 export const cartDetail = async (req, res) => {
   try {
-    const cid = req.params.cid;
+  
+    const { cart: userCart } = req.user
+    const {_id: cid} = userCart
     const cart = await cartsManager.getById(cid);
     if (!cart)
       return res
@@ -134,6 +135,7 @@ export const cartDetail = async (req, res) => {
         .render(`<h2>Error 404: Cart with id ${cid} not found </h2>`);
     const products = cart.products;
     return res.render("cart", {
+      cart,
       products,
       user: req.user,
       style: "cart.css"

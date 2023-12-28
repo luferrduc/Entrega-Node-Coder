@@ -15,6 +15,11 @@
 			href="/"
 			style="position: absolute; left: 10px; top: 10px"
 		><button>Perfil</button></a>
+		</a>
+				<a
+			href="/cart/detail"
+			style="position: absolute; left: 60px; top: 10px"
+		><button>Cart</button></a>
 		<form
 			action="/api/products/"
 			id="product-form"
@@ -50,6 +55,7 @@
 					<h3 style="margin-bottom: 0;">{{this.title}}</h3>
 					<p style="margin: 0;">code: {{this.code}}</p>
 					<p style="margin: 0;">description: {{this.description}}</p>
+					<p style="margin: 0;">stock: {{this.stock}}</p>
 					<a href="/products/{{this._id}}" class="detalle-link">ver detalle</a>
 				</div>
 				<button class="delete-button">Eliminar</button>

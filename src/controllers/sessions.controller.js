@@ -1,7 +1,8 @@
 import { generateToken, createHash, isValidPassowrd } from "../utils.js";
 import { validateUser } from "../schemas/users.schema.js";
-import { addCartToUser, login as loginServices } from "../services/sessions.services.js";
+import { login as loginServices } from "../services/sessions.services.js";
 import { showPublicUser as showPublicUserServices } from "../services/sessions.services.js";
+import { addCartToUser as addCartToUserServices } from "../services/sessions.services.js";
 import { logout as logoutServices } from "../services/sessions.services.js";
 import { register as registerServices } from "../services/sessions.services.js";
 import { createCart as createCartServices } from "../services/carts.services.js";
@@ -39,7 +40,7 @@ export const login = async (req, res) => {
 		
 		if(!user.cart){
 			cartId = await createCartServices()
-			user = await addCartToUser(user, cartId)
+			user = await addCartToUserServices(user, cartId)
 		}
 		
 		
@@ -96,3 +97,14 @@ export const githubCallback = async (req, res) => {
 	};
 	return res.redirect("/products");
 };
+
+export const getCartByUser = async (req, res) => {
+	try {
+		const { cart: userCart } = req.user
+		const { _id: cid } = userCart
+		
+		if(cid) return res.send({ status: "success", payload: {_id: cid}  })
+	} catch (error) {
+		return res.sendServerError(error.message);
+	} 
+}

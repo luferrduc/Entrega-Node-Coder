@@ -40,7 +40,4 @@ export default class CartsRepository {
     return result
   };
 
-	purchaseProducts = async (cid, user) => {
-		
-	};
 }

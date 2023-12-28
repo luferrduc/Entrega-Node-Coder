@@ -12,6 +12,6 @@ export const generateTicket = async (user, amount) => {
     purchaser: user.email
   }
 
-  const result = ticketsRepository.create(newTicket)
+  const result = await ticketsRepository.create(newTicket)
   return result
 }
