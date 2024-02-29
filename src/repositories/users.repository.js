@@ -7,8 +7,14 @@ export default class UsersRepository {
 
 	login = async (email) => {
 		const user = await this.dao.getByEmail(email);
+		if(user) this.dao.signInSignOut(email)
 		return user;
 	};
+
+	getById = async (uid) => {
+		const user = await this.dao.getById(uid)
+		return user
+	}
 
   showPublicUser = async (user) => {
     const finalUser = new UsersDto(user)
@@ -28,6 +34,22 @@ export default class UsersRepository {
 
 	logout = async (email) => {
 		const result = await this.dao.deleteCartFromUser(email);
+		if(result) this.dao.signInSignOut(email)
 		return result;
 	};
+
+	updatePassword = async (email, password) => {
+		const result = await this.dao.updatePassword(email, password)
+		return result
+	}
+
+	changeRole = async (uid, role) => {
+		const result = await this.dao.changeRole(uid, role)
+		return result
+	}
+
+	uploadDocuments = async (user, documents) => {
+		const result = await this.dao.uploadDocuments(user, documents)
+		return result
+	}
 }

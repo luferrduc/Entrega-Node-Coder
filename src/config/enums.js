@@ -8,5 +8,6 @@ export const passportStrategiesEnum = {
 export const accessRolesEnum = {
   ADMIN: "admin",
   USER: "user",
+  PREMIUM: "premium",
   PUBLIC: "public"
 }

@@ -1,9 +1,5 @@
 import { Router } from "express";
-// import Router from "./router.js";
-// import ProductManager from "../dao/fileManagers/product-file.manager.js";
-import Products from "../dao/dbManagers/products.manager.js";
-import { validateProduct } from "../schemas/products.schema.js";
-import { productsFilePath } from "../utils.js";
+import toAsyncRouter from "async-express-decorator"
 import { accessRolesEnum, passportStrategiesEnum } from "../config/enums.js";
 import { handlePolicies } from "../middlewares/auth.js";
 import { passportCall } from "../config/passport.config.js";
@@ -13,10 +9,11 @@ import {
 	deleteProduct,
 	getProduct,
 	getProducts,
-	updateProduct
+	updateProduct,
+	mockingProducts
 } from "../controllers/products.controller.js";
 
-const router = Router();
+const router = toAsyncRouter(Router());
 
 router
 	.get(
@@ -25,6 +22,13 @@ router
 		handlePolicies([accessRolesEnum.USER]),
 		generateCustomResponse,
 		getProducts
+	)
+	.get(
+		"/mockingproducts",
+		passportCall(passportStrategiesEnum.JWT),
+		handlePolicies([accessRolesEnum.USER]),
+		generateCustomResponse,
+		mockingProducts
 	)
 	.get(
 		"/:pid",
@@ -36,7 +40,7 @@ router
 	.post(
 		"/",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM]),
 		generateCustomResponse,
 		createProduct
 	)

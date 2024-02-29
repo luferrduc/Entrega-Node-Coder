@@ -5,8 +5,6 @@ const persistence = configs.persistence
 
 let Products, Carts, Messages, Users, Tickets
 
-
-
 switch(persistence) {
   case 'MONGO':
     console.log("Trabajando con BD Mongo")

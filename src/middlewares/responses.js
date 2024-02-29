@@ -1,3 +1,4 @@
+
 export const generateCustomResponse = (req, res, next) => {
   res.sendSuccess = (data) => {
     return res.status(200).json({ status: "success", payload: data });

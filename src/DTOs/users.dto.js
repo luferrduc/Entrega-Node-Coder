@@ -6,5 +6,6 @@ export default class UsersDto  {
     this.role = user.role
     this.age = user.age
     this.cart = user.cart
+    this.last_connection = user.last_connection
   }
 }

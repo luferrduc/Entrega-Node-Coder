@@ -28,7 +28,8 @@ const productSchema = z.object({
   status: z.boolean({
     invalid_type_error: "status must be a boolean",
     required_error: "status is required"
-  }).default(true)
+  }).default(true),
+  owner: z.string().default("admin")
 })
 
 

@@ -1,7 +1,4 @@
 import { Router } from "express";
-// import ProductManager from "../dao/fileManagers/product-file.manager.js";
-
-import { productsFilePath } from "../utils.js";
 import { accessRolesEnum, passportStrategiesEnum } from "../config/enums.js";
 import { handlePolicies } from "../middlewares/auth.js";
 import { passportCall } from "../config/passport.config.js";
@@ -14,12 +11,12 @@ import {
 	productsView,
 	profile,
 	realTimeProductsView,
-	register
+	register,
+	resetPasswordView,
+	passwordLinkView
 } from "../controllers/views.controller.js";
 
 const router = Router();
-
-
 
 router
 	.get(
@@ -77,7 +74,20 @@ router
 		handlePolicies([accessRolesEnum.PUBLIC]),
 		generateCustomResponse,
 		login
+	)
+	.get(
+		"/password-link",
+		passportCall(passportStrategiesEnum.NOTHING),
+		handlePolicies([accessRolesEnum.PUBLIC]),
+		generateCustomResponse,
+		passwordLinkView
+	)
+	.get(
+		"/reset-password",
+		passportCall(passportStrategiesEnum.NOTHING),
+		handlePolicies([accessRolesEnum.PUBLIC]),
+		generateCustomResponse,
+		resetPasswordView
 	);
 
 export default router;
-

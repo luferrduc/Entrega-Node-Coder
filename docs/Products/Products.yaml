@@ -1,0 +1,496 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.yaml
+openapi: "3.1.0"
+info:
+  title: "asd"
+  version: "1" 
+paths:
+# ----------------------------------------
+  /api/products:
+    get:
+      summary: "En este servicio se obtienen todos los productos"
+      tags:
+        - Products
+      security:
+        - bearerAuth: []      
+      responses:
+        "200":
+          description: Los productos se han obtenido satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#components/schemas/Product' 
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"  
+        "500":
+          description: Server error     
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Server error   
+    post:
+      summary: En este servicio se permite crear un producto dentro de la base de datos
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#components/schemas/Product'        
+      responses:
+        "200":
+          description: Los productos se han obtenido satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: success
+                  payload:
+                    $ref: '#components/schemas/Product'
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"  
+        "500":
+          description: Server error     
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Server error           
+# ----------------------------------------
+  /api/products/{pid}:
+    get:
+      summary: Este servicio obtiene un producto a partir de su uuid (identificador único autogenerado) 
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a buscar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Se obtiene exitosamente el producto
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: success
+                  payload:
+                    $ref: '#components/schemas/Product'
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"                  
+        "404":
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: product not found
+        "500":
+          description: Server error     
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Server error                              
+    put:
+      summary: Este servicio obtiene un producto a partir de su uuid (identificador único autogenerado) 
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a modificar
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#components/requestBodies/updateProduct'
+      responses:
+        "200":
+          description: Se actualiza satisfactoriamente el prodcuto
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: success
+                  payload:
+                    $ref: '#components/schemas/Product'
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"
+        "404":
+          description: Product not found, incorrect id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Product not found    
+        "500":
+          description: Server error     
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Server error                                                   
+    delete:
+      summary: Este servicio elimina un producto a partir de su uuid (identificador único autogenerado)
+      tags: 
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a eliminar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Product deleted succesfully
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"            
+        "404":
+          description: Producto no encontrado, id incorrecto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Product not found             
+        "500":
+          description: Server error     
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Server error   
+# ----------------------------------------
+  /api/products/mockingproducts:
+    get:
+      summary: En este servicio se obtiene un arreglo de prodcutos de prueba (mocking)
+      tags:
+        - Products
+      security:
+        - bearerAuth: []      
+# ----------------------------------------
+components:
+  schemas:
+    Product:
+      type: Object
+      properties:
+        _id: 
+          type: ObjectId
+          description: Id autogenerado por mongodb. Es el identificador único para cada producto
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description:  Pequeña descripción del producto
+        price:
+          type: number
+          format: float
+          # exclusiveMinimum: false
+          # minimum: 0
+          description: Precio unitario del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: Arreglo de urls de imagenes del producto
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: integer
+          format: int64
+          description: Cantidad disponible del producto
+        status:
+          type: boolean
+          description:
+        owner:
+          type: string
+          description: Correo electrónico de quien creó el producto en el software
+      required:
+        - title
+        - price
+        - code
+        - stock
+        - status
+      example:
+        _id: ObjectId('653c386cd064ad5e27ae5778')
+        title: Asus Rog Strix 32Gb Ram, GeForce 4090 GTX
+        description: Best Notebook Gamer to play all games in store
+        price: 1120000
+        thumbnail: ["http://url1-del-producto.jpeg", "http://url2-del-producto.jpeg"]
+        code: notebook-002
+        stock: 2
+        status: true
+        owner: coderuser@gmail.com
+  requestBodies:
+    updateProduct:
+      type: Object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description:  Pequeña descripción del producto
+        price:
+          type: number
+          format: float
+          # exclusiveMinimum: false
+          # minimum: 0
+          description: Precio unitario del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: Arreglo de urls de imagenes del producto
+          default: []
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: integer
+          format: int64
+          description: Cantidad disponible del producto
+        status:
+          type: boolean
+          description:
+        owner:
+          type: string
+          description: Correo electrónico de quien creó el producto en el software
+      required:
+        - title
+        - price
+        - code
+        - stock
+        - status
+      example:
+        _id: ObjectId('45')
+        title: Asus Rog Strix 32Gb Ram, GeForce 4090 GTX
+        description: Best Notebook Gamer to play all games in store
+        price: 1120000
+        code: notebook-002
+        stock: 5
+        status: true
+        owner: coderuser55575@gmail.com             
+    createProduct:
+      type: Object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description:  Pequeña descripción del producto
+        price:
+          type: number
+          format: float
+          # exclusiveMinimum: false
+          # minimum: 0
+          description: Precio unitario del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: Arreglo de urls de imagenes del producto
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: integer
+          format: int64
+          description: Cantidad disponible del producto
+        status:
+          type: boolean
+          description:
+        owner:
+          type: string
+          description: Correo electrónico de quien creó el producto en el software
+      required:
+        - title
+        - price
+        - code
+        - stock
+        - status
+      example:
+        _id: ObjectId('653c386cd064ad5e27ae5778')
+        title: Asus Rog Strix 32Gb Ram, GeForce 4090 GTX
+        description: Best Notebook Gamer to play all games in store
+        price: 1120000
+        thumbnail: ["http://url1-del-producto.jpeg", "http://url2-del-producto.jpeg"]
+        code: notebook-002
+        stock: 5
+        status: true
+        owner: coderuser55575@gmail.com                
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    

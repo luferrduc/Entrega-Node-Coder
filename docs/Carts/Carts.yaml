@@ -1,0 +1,749 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.yaml
+openapi: "3.1.0"
+info:
+  title: "asd"
+  version: "1" 
+paths:
+# ----------------------------------------  
+  /api/carts/:
+    post:
+      summary: Servicio que nos permite crear un carrito vacío
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Cart fue creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    description: success
+                    example: success
+                  payload:                 
+                    $ref: '#components/schemas/Cart'   
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"
+        "404":
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: Cart not found
+        "500":
+          description: Error interno del servidor, usualmente generardo por una query defectuosa o un fallo en la conexión a la base de datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: Mensaje de error del servidor          
+# ----------------------------------------
+  /api/carts/{cid}:
+    get:
+      summary: Este servicio obtiene un carrito a partir de su uuid (identificador único autogenerado) 
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito a buscar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Get cart succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    description: success
+                    example: success
+                  payload:                 
+                    $ref: '#components/schemas/Cart'   
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"
+        "404":
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: Cart not found
+        "500":
+          description: Error interno del servidor, usualmente generardo por una query defectuosa o un fallo en la conexión a la base de datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: Mensaje de error del servidor    
+    put:
+      summary: Este servicio actualiza un carrito a partir de su uuid (identificador único autogenerado) 
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a modificar
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#components/requestBodies/updateProduct'
+      responses:
+        "200":
+          description: El carrito fue actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"     
+        "404": 
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: Cart not found                         
+        "500":
+          description: Error interno del servidor, usualmente generardo por una query defectuosa o un fallo en la conexión a la base de datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: Mensaje de error del servidor                  
+    delete:
+      summary: Este servicio elimina todos los prodcutos de un carrito de compras a partir de su uuid (identificador único autogenerado)
+      tags: 
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito a eliminar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Cart deleted succesfully
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: success
+                  payload:
+                    $ref: '#components/requestBodies/deleteProducts'
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"          
+        "404": 
+          description: Cart not found, incorrect id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: Cart not found       
+        "500":
+          description: Error interno del servidor, usualmente generardo por una query defectuosa o un fallo en la conexión a la base de datos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: Mensaje de error del servidor    
+# ----------------------------------------
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Este servicio agrega un producto con su id (pid) al carrito con el id (cid)
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito al cual se desea agregar el producto
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a agregar
+          schema:
+            $type: string            
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#components/requestBodies/updateCart'
+      responses:
+        "200":
+          description: Agrega exitosamente un prodcuto al carrito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    description: success
+                    example: success
+                  payload:                 
+                    $ref: '#components/schemas/Cart'
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"  
+        "404": # TODO: Agregar un oneOf para los errores --> Cart or Product not found
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: Cart not found                                  
+    put:
+      summary: Este servicio modifica la cantidad de un producto con {pid} en el carrito con {cid}. Siendo pid el uuid del producto y cid el uuid del carrito
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito del cual se quiere actualizar un producto
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a cual se quiere modificar la cantidad
+          schema:
+            $type: string         
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  format: int64
+                  example: 5        
+      responses:
+        "200":
+          description: Product quantity has been updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    description: success
+                    example: success
+                  payload:                 
+                    $ref: '#components/requestBodies/updateCart'
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"                
+        "404": # TODO: Agregar un oneOf para los errores --> Cart or Product not found
+          description: Cart not found or Product not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: Cart not found                        
+    delete:
+      summary: Este servicio elimina un producto de un carrito de compras a partir de su uuid (identificador único autogenerado)
+      tags: 
+        - Carts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito del cual se desea eliminar un producto
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto que se desea eliminar del carrito 
+          schema:
+            $type: string            
+      responses:
+        "200":
+          description: Cart deleted succesfully
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: success
+                  payload:
+                    $ref: '#components/requestBodies/updateCart'          
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"          
+        "404":
+          description: Cart not found, incorrect id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: cart not found                    
+        "500":
+          description: Server error     
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Server error                          
+# ----------------------------------------
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Con este servicio, se logra comprar los productos dentro del carrito y generar el ticket de compra
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito del cual se desea comprar
+          schema:
+            $type: string        
+      security:
+        - bearerAuth: []     
+      responses:
+        "200":
+          description: Cart purchased succesfully
+          content:
+            application/json:
+              schema:   
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: success
+                  payload:
+                    $ref: '#components/requestBodies/purchaseTicket'                
+        "400":
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: user is required
+        "401":
+          description: Unauthorized request. Esto ocurre cuando no se genera el token de acceso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string                  
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  payload:  
+                    type: string              
+                    description: Mensaje para el tipo de error
+                    example: "Error: no auth token"
+        "404":
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: cart not found          
+        "422":
+          description: Unproccesable Entity. Esto se provoca cuando se quiere realizar una compra con el carrito vacio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: there are not products in this cart
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Mensaje del tipo de estatus
+                    example: error
+                  message:
+                    type: string
+                    description: Mensaje para el tipo del error
+                    example: Server Error                 
+# ----------------------------------------
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id: 
+          type: ObjectId
+          description: Id autogenerado por mongodb. Es el identificador único para cada producto
+        products:
+          type: array
+          description: Arreglo de productos dentro del carrito
+          items:
+            type: object 
+            properties:
+              product:
+                type: ObjectId
+                description: Id autogenerado por mongodb del producto añadido en el carrito
+              quantity:
+                type: integer
+                format: int64
+                minimum: 1
+                default: 1
+          default: "[]"     
+      example:
+        _id: ObjectId('asdsadA8-nyhaYvb7-Jgdjsad9-jajhsd')
+        products: []
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+          products:
+          type: array
+          description: Arreglo de productos dentro del carrito
+          items:
+            type: object 
+            properties:
+              product:
+                type: ObjectId
+                description: Id autogenerado por mongodb del producto añadido en el carrito
+              quantity:
+                type: integer
+                format: int64
+                minimum: 1
+                default: 1
+          default: []       
+      example:
+        _id: ObjectId('asdsadA8-nyhaYvb7-Jgdjsad9-jajhsd')
+        products: [{product: ObjectId('653c386cd064ad5e27ae5778'), quantity: 2}, {product: ObjectId('653c3881d064ad5e27ae5781'), quantity: 5}]
+    deleteProducts:
+      type: object
+      properties:
+          _id: 
+            type: ObjectId
+            description: Id autogenerado por mongodb para el carrito
+          products:
+            type: array
+            description: Arreglo de productos dentro del carrito
+            items:
+              type: object 
+              properties:
+                product:
+                  type: ObjectId
+                  description: Id autogenerado por mongodb del producto añadido en el carrito
+                quantity:
+                  type: integer
+                  format: int64
+                  minimum: 1
+                  default: 1
+            default: []       
+      example:
+        _id: ObjectId('asdsadA8-nyhaYvb7-Jgdjsad9-jajhsd')
+        products: []        
+    purchaseTicket:
+      type: object
+      properties:
+          ticket:
+            type: object
+            description: Ticket de la compra del carrito
+            properties:
+              _id: 
+                type: ObjectId
+                description: Id autogenerado por mongodb
+              code:
+                type: string
+                format: uuid
+                description: código único autogenerado con formato uuid
+              purchase_datetime:
+                type:
+              amount:
+                type: integer
+                format: int64
+              purchaser:
+                type: string
+                format: email
+          cartUpdated:
+            type: object
+            description: Carrito luego de comprar los productos
+            properties:
+              _id:
+              products: 
+                type: array
+                description: Arreglo de productos dentro del carrito
+                items:
+                  type: object 
+                  properties:
+                    product:
+                      type: ObjectId
+                      description: Id autogenerado por mongodb del producto añadido en el carrito
+                    quantity:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      default: 1
+                default: []            
+      example:
+        ticket: {
+                  "_id": "65c19853c5c59ef758476ec7",
+                  "code": "9cce4760-fee0-451b-833b-a181372ebf8d",
+                  "purchase_datetime": "2/5/2024, 11:24:19 PM",
+                  "amount": 21200,
+                  "purchaser": "luciano.ferrando94@gmail.com",         
+                }
+        cartUpdated: {
+                      "_id": "6545aa8e270a029828db0df4",
+                      "products": [] 
+                      }
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    
