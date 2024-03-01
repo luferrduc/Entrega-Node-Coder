@@ -128,6 +128,8 @@ export const updateProduct = async (req, res) => {
 		return res.sendServerError(error.message);
 	}
 };
+
+// TODO: Modificar controller: En caso de que el producto pertenezca a usuario premium, le envíe correo notificando la eliminación
 export const deleteProduct = async (req, res) => {
 	try {
 		const { pid } = req.params;

@@ -188,3 +188,29 @@ export const passportCall = (strategy) => (req, res, next) => {
 		next();
 	}
 };
+
+export const passportCallViews = (strategy) => (req, res, next) => {
+	if (strategy === passportStrategiesEnum.JWT) {
+		// custom passport call
+		passport.authenticate(
+			strategy,
+			{ session: false },
+			function (err, user, info) {
+				if (err) return next(err);
+				if (!user) {
+					req.logger.debug(`${info.messages ? info.messages : info.toString()}`)
+					return res.status(401).render("401",{
+						status: "error",
+						style: "401.css",
+						messages: info.messages ? info.messages : info.toString()
+					});
+				}
+				req.user = user;
+
+				next();
+			}
+		)(req, res, next);
+	} else {
+		next();
+	}
+};

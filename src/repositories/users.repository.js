@@ -5,6 +5,12 @@ export default class UsersRepository {
 		this.dao = dao;
 	}
 
+	getAllUsers = async () => {
+		const users = await this.dao.getAll()
+		const publicUsers = users.map(user => new UsersDto(user))
+		return publicUsers
+	}
+
 	login = async (email) => {
 		const user = await this.dao.getByEmail(email);
 		if(user) this.dao.signInSignOut(email)

@@ -11,6 +11,11 @@ const requiredDocuments = [
 	"cuenta"
 ]
 
+export const getAllUsers = async () => {
+	const users = await userRepository.getAllUsers()
+	return users
+}
+
 export const changeRoleUser = async (uid) => {
 	let result
 

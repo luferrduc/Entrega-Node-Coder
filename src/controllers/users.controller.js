@@ -1,7 +1,21 @@
-import { RequiredDocumentsNotFound, UserNotFoundError } from "../utils/custom.exceptions.js"
+import {
+	RequiredDocumentsNotFound,
+	UserNotFoundError
+} from "../utils/custom.exceptions.js"
 import { changeRoleUser as changeRoleUserServices } from "../services/users.services.js"
 import { uploadDocuments as uploadDocumentsServices } from "../services/users.services.js"
-import { getUserById as getUserByIdService } from "../services/users.services.js"
+import { getUserById as getUserByIdServices } from "../services/users.services.js"
+import { getAllUsers as getAllUsersServices } from "../services/users.services.js"
+
+export const getAllUsers = async (req, res) => {
+	try {
+		const users = await getAllUsersServices()
+		return res.sendSuccess(users)
+	} catch (error) {
+		req.logger.fatal(`${error.message}`)
+		return res.sendServerError(error.message)
+	}
+}
 
 export const changeRoleUser = async (req, res) => {
 	try {
@@ -26,7 +40,7 @@ export const changeRoleUser = async (req, res) => {
 export const getUserById = async (req, res) => {
 	try {
 		const { uid } = req.params
-		const user = await getUserByIdService(uid)
+		const user = await getUserByIdServices(uid)
 		return res.sendSuccess(user)
 	} catch (error) {
 		if (error instanceof UserNotFoundError) {
@@ -55,5 +69,13 @@ export const uploadDocuments = async (req, res) => {
 			req.logger.fatal(`${error.message}`)
 			return res.sendServerError(error.message)
 		}
+	}
+}
+
+export const deleteInactiveUsers = async (req, res) => {
+	try {
+		
+	} catch (error) {
+		
 	}
 }
