@@ -58,4 +58,9 @@ export default class UsersRepository {
 		const result = await this.dao.uploadDocuments(user, documents)
 		return result
 	}
+
+	deleteInactiveUsers = async (inactiveUsers) => {
+		const result = await this.dao.deleteInactiveUsers(inactiveUsers)
+		return result
+	}
 }

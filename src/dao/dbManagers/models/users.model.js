@@ -33,7 +33,8 @@ const usersSchema = new mongoose.Schema({
 		default: "user"
 	},
 	last_connection: {
-		type: String
+		type: String,
+		required: false
 	},
 	documents: {
 		type: [

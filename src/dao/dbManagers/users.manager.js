@@ -1,5 +1,5 @@
 import usersModel from "./models/users.model.js"
-
+import { DateTime } from "luxon"
 export default class Users {
 	constructor() {}
 	getAll = async () => {
@@ -21,7 +21,8 @@ export default class Users {
 	}
 
 	signInSignOut = async (email) => {
-		const lastConnection = new Date().toLocaleString()
+		const lastConnection = DateTime.now().toFormat("D, TT")
+	
 		const result = await usersModel.findOneAndUpdate(
 			{ email },
 			{ last_connection: lastConnection }
@@ -97,5 +98,15 @@ export default class Users {
 
 		const userUpdated = await usersModel.findById(uid).lean()
 		return userUpdated
+	}
+
+	// TODO: Delete inactive users but delete their carts before them
+	deleteInactiveUsers = async (inactiveUsers) => {
+		const usersEmail = inactiveUsers.map(user => user.email)
+		const usersCarts = inactiveUsers.map(user => user.cart._id)
+		console.log({usersEmail, usersCarts})
+		const deletedCarts = await usersModel.deleteMany({ _id: usersCarts })
+		const deletedUsers = await usersModel.deleteMany({ email: usersEmail })
+		return deletedUsers
 	}
 }

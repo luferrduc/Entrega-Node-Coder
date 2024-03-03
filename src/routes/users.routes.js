@@ -70,12 +70,18 @@ router
 		"/",
 		passportCall(passportStrategiesEnum.JWT),
 		handlePolicies([
+			accessRolesEnum.ADMIN,
 			accessRolesEnum.USER,
-			accessRolesEnum.PREMIUM,
-			accessRolesEnum.ADMIN
 		]),
 		generateCustomResponse,
 		deleteInactiveUsers
+	)
+	.delete(
+		"/:email",
+		passportCall(passportStrategiesEnum.JWT),
+		handlePolicies([
+			accessRolesEnum.ADMIN
+		])
 	)
 
 export default router

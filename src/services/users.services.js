@@ -1,6 +1,10 @@
+import { DateTime } from "luxon"
+
 import { Users as UsersDao } from "../dao/factory.js"
 import UsersRepository from "../repositories/users.repository.js"
 import { RequiredDocumentsNotFound, UserNotFoundError } from "../utils/custom.exceptions.js"
+
+
 
 const usersDao = new UsersDao()
 const userRepository = new UsersRepository(usersDao)
@@ -56,5 +60,19 @@ export const uploadDocuments = async (user, files) => {
 		documents.push({ name, reference: data[0].path })
 	})
 	const result = await userRepository.uploadDocuments(user, documents)
+	return result
+}
+
+export const deleteInactiveUsers = async () => {
+	const users = await userRepository.getAllUsers()
+	const inactiveUsers = users.filter((user) => {
+		if(user.last_connection){
+			const lastConnection = DateTime.fromFormat(user.last_connection, "D, TT")
+			const now = DateTime.now()
+			return now.diff(lastConnection, "minutes").minutes.toFixed(0) <= 15
+		}
+	})
+	console.log(inactiveUsers)
+	const result = await userRepository.deleteInactiveUsers(inactiveUsers)
 	return result
 }

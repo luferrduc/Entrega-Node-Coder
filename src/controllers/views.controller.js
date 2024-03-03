@@ -1,6 +1,9 @@
+
+// TODO: Cambiar los managers para usar los servicios
 import Products from "../dao/dbManagers/products.manager.js"
 import Carts from "../dao/dbManagers/carts.manager.js"
 import Messages from "../dao/dbManagers/messages.manager.js"
+import { getAllUsers as getAllUsersServices} from '../services/users.services.js'
 import jwt from "jsonwebtoken"
 import configs from "../config.js"
 
@@ -172,7 +175,6 @@ export const resetPasswordView = async (req, res) => {
 		const token = req.query.token
 		const PRIVATE_KEY = configs.privateKeyJWT
 		// TODO: revisar token y renderizar página correspondiente
-		console.log(token)
 		jwt.verify(token, PRIVATE_KEY, (error, decoded) => {
 			// TODO: Si existe error, renderizar o rediregir a otra página
 			if (error) {
@@ -199,5 +201,15 @@ export const resetPasswordView = async (req, res) => {
 			style: "500.css",
 			error
 		})
+	}
+}
+
+export const usersView = async (req, res) => {
+	try {
+		const users = await getAllUsersServices()
+		
+		
+	} catch (error) {
+		
 	}
 }

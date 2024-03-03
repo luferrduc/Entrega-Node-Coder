@@ -6,6 +6,7 @@ import { changeRoleUser as changeRoleUserServices } from "../services/users.serv
 import { uploadDocuments as uploadDocumentsServices } from "../services/users.services.js"
 import { getUserById as getUserByIdServices } from "../services/users.services.js"
 import { getAllUsers as getAllUsersServices } from "../services/users.services.js"
+import { deleteInactiveUsers as deleteInactiveUsersServices } from "../services/users.services.js"
 
 export const getAllUsers = async (req, res) => {
 	try {
@@ -57,7 +58,7 @@ export const uploadDocuments = async (req, res) => {
 	try {
 		const files = req.files
 		const { uid } = req.params
-		const user = await getUserByIdService(uid)
+		const user = await getUserByIdServices(uid)
 
 		const result = await uploadDocumentsServices(user, files)
 		return res.sendSuccess(result)
@@ -72,10 +73,14 @@ export const uploadDocuments = async (req, res) => {
 	}
 }
 
+export const deleteOneUser = async (req, res) => {}
+
 export const deleteInactiveUsers = async (req, res) => {
 	try {
-		
+		const inactiveUsers = await deleteInactiveUsersServices()
+		return res.sendSuccess(inactiveUsers)
 	} catch (error) {
-		
+		req.logger.fatal(`${error.message}`)
+		return res.sendServerError(error.message)
 	}
 }

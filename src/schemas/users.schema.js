@@ -1,4 +1,5 @@
 import z from "zod"
+import dayjs from "dayjs"
 
 const userSchema = z.object({
   first_name: z.string({
@@ -20,7 +21,7 @@ const userSchema = z.object({
   password: z.string().trim().min(6, { message: "password must be 6 or more characteres long"}),
   cart: z.string().uuid().nullish(),
   role: z.enum(["user", "admin", "premium"]).default("user"),
-  last_connection: z.string().datetime().default((new Date()).toLocaleString()),
+  last_connection: z.string().optional(),
   documents: z.array(z.object({
     name: z.string(),
     reference: z.string()
