@@ -13,7 +13,7 @@ import {
 	mockingProducts
 } from "../controllers/products.controller.js";
 
-const router = toAsyncRouter(Router());
+const router = Router();
 
 router
 	.get(

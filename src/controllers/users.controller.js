@@ -42,13 +42,19 @@ export const getUserById = async (req, res) => {
 	try {
 		const { uid } = req.params
 		const user = await getUserByIdServices(uid)
+		console.log("USER ENCONTRADO")
 		return res.sendSuccess(user)
 	} catch (error) {
+		console.log("DENTRO DEL CATCH")
 		if (error instanceof UserNotFoundError) {
 			req.logger.error(`${error.message}`)
+			console.log("DENTRO DEL CATCH USER NOT FOUND")
+
 			return res.sendNotFoundError(error.message)
 		} else {
 			req.logger.fatal(`${error.message}`)
+			console.log("DENTRO DEL ERROR SERVER")
+
 			return res.sendServerError(error.message)
 		}
 	}

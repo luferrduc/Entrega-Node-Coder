@@ -7,9 +7,7 @@ export default class UsersRepository {
 
 	getAllUsers = async () => {
 		const users = await this.dao.getAll()
-		console.log({usersRepo: users})
 		const publicUsers = users.map((user) => new UsersDto(user))
-		console.log({publicUsers})
 		return publicUsers
 	}
 
