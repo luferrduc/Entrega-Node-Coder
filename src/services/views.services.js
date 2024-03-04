@@ -1,6 +1,7 @@
 import Products from "../dao/dbManagers/products.manager.js";
 import Carts from "../dao/dbManagers/carts.manager.js";
 import Messages from "../dao/dbManagers/messages.manager.js";
+import { getAllUsers as getAllUsersServices } from "./users.services.js";
 
 
 const productsManager = new Products();
@@ -152,4 +153,9 @@ export const profile = (req, res) => {
     user: req.user,
     style: "profile.css"
   });
+}
+
+export const usersView = async () => {
+  const users = await getAllUsersServices()
+  return users
 }

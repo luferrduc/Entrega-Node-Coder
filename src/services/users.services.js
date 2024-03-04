@@ -16,7 +16,10 @@ const requiredDocuments = [
 ]
 
 export const getAllUsers = async () => {
+	console.log("Users Services")
 	const users = await userRepository.getAllUsers()
+
+	console.log({userService: users})
 	return users
 }
 
@@ -67,12 +70,12 @@ export const deleteInactiveUsers = async () => {
 	const users = await userRepository.getAllUsers()
 	const inactiveUsers = users.filter((user) => {
 		if(user.last_connection){
-			const lastConnection = DateTime.fromFormat(user.last_connection, "D, TT")
+			const lastConnection = DateTime.fromFormat(user.last_connection, "dd/LL/yyyy, TT")
 			const now = DateTime.now()
 			return now.diff(lastConnection, "minutes").minutes.toFixed(0) <= 15
 		}
 	})
 	console.log(inactiveUsers)
-	const result = await userRepository.deleteInactiveUsers(inactiveUsers)
-	return result
+	// const result = await userRepository.deleteInactiveUsers(inactiveUsers)
+	return inactiveUsers
 }

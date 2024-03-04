@@ -2,6 +2,8 @@ import Products from "../dao/dbManagers/products.manager.js";
 import ProductsRepository from "../repositories/products.repository.js";
 import { InvalidOwnerError } from "../utils/custom.exceptions.js";
 import UsersRepository from "../repositories/users.repository.js";
+import { deleteProductEmail } from "../utils/custom.html.js";
+import { sendEmail } from "./mail.services.js";
 
 
 const productsRepository = new ProductsRepository()
@@ -63,6 +65,7 @@ export const getProduct = async (pid) => {
 };
 
 export const createProduct = async (product, user) => {
+	product.owner = user.email
 	const result = await productsRepository.create(product)
 	return result
 };
@@ -74,10 +77,21 @@ export const updateProduct = async (pid, product) => {
 
 export const deleteProduct = async (pid, user) => {
 	const product = await productsRepository.getById(pid)
-
+	let owner
 	if(user.role === "premium" && user.email != product.owner){
 			throw new InvalidOwnerError("Premium user can only update their products")
 	}
+	
+	if(product.owner !== "admin"){
+		owner = await usersRepository.getByEmail(owner)
+	} 
 	const deletedProduct = await productsRepository.delete(pid);
+	const html = deleteProductEmail(product.title, product.code)
+  const email = {
+    to: owner.email,
+    subject: "Removed product",
+    html
+  }
+	const sentMail = await sendEmail(email)
 	return deletedProduct
 };
