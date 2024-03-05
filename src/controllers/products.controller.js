@@ -141,7 +141,7 @@ export const deleteProduct = async (req, res) => {
 		const user = req.user
 		const io = req.app.get("socketio");
 
-		const productExists = await getProduct(pid);
+		const productExists = await getProductServices(pid);
 		if (!productExists)
 			return res.sendNotFoundError("Product not found, incorrect id");
 

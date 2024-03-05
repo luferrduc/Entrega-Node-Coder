@@ -47,7 +47,7 @@ const usersSchema = new mongoose.Schema({
 	}
 });
 
-usersSchema.pre(["find", "findById", "findOne"], function () {
+usersSchema.pre(["find", "findById", "findOne", "findOneAndUpdate"], function () {
 	this.populate("cart");
 });
 

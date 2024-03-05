@@ -67,12 +67,11 @@ export const deleteInactiveUsers = async () => {
 	const users = await userRepository.getAllUsers()
 	const inactiveUsers = users.filter((user) => {
 		if(user.last_connection){
-			const lastConnection = DateTime.fromFormat(user.last_connection, "D, TT")
+			const lastConnection = DateTime.fromFormat(user.last_connection, "dd/LL/yyyy, TT")
 			const now = DateTime.now()
-			return now.diff(lastConnection, "minutes").minutes.toFixed(0) <= 15
+			return now.diff(lastConnection, "days").days.toFixed(0) <= 2
 		}
 	})
-	console.log(inactiveUsers)
 	const result = await userRepository.deleteInactiveUsers(inactiveUsers)
 	return result
 }

@@ -14,10 +14,6 @@ const storage = multer.diskStorage({
 	 */
 	destination: function (req, file, cb) {
 		//* Identificar cuando es un tipo de archivo perfil, producto o documento
-		// const user = req.user
-		// console.log(user)
-		// if (!user.documents.every((document) => requiredDocuments.includes(document.name)))
-		// console.log(file)
 		switch (file.fieldname) {
 			case "perfil":
 				cb(null, `${folder}/profiles`)
@@ -39,11 +35,7 @@ const storage = multer.diskStorage({
 		}
 	},
 	filename: function (req, file, cb) {
-		// const user = req.user
-		// if(!user.documents.find(doc => doc.name === file.fieldname)){
-		// }
 		cb(null, `${Date.now()}-${file.originalname}`)
-		// logger.warning(`El archivo con nombre ${file.fieldname} ya se encuentra subido`)
 	}
 })
 

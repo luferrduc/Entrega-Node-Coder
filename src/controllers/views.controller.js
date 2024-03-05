@@ -1,9 +1,8 @@
-
 // TODO: Cambiar los managers para usar los servicios
 import Products from "../dao/dbManagers/products.manager.js"
 import Carts from "../dao/dbManagers/carts.manager.js"
 import Messages from "../dao/dbManagers/messages.manager.js"
-import { getAllUsers as getAllUsersServices} from '../services/users.services.js'
+import { usersView as usersViewServices } from "../services/views.services.js"
 import jwt from "jsonwebtoken"
 import configs from "../config.js"
 
@@ -41,7 +40,7 @@ export const realTimeProductsView = async (req, res) => {
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).send(`<h2>Error 500: ${error.message}</h2>`)
+		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -97,7 +96,7 @@ export const productsView = async (req, res) => {
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).render("500", { message: `${error.message}` })
+		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -116,7 +115,7 @@ export const productDetail = async (req, res) => {
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).render("500", { message: `${error.message}` })
+		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -138,7 +137,7 @@ export const cartDetail = async (req, res) => {
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).render("500", { message: `${error.message}` })
+		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -148,18 +147,45 @@ export const chat = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-	return res.render("login", { style: "login.css" })
+	try {
+		if(req.cookies["coderCookieToken"]){
+			return res.redirect("/")
+		}
+		return res.render("login", { style: "login.css" })
+	} catch (error) {
+		req.logger.error(`${error.message}`)
+		return res.status(500).render("500", {
+			style: "500.css",
+			error
+		})
+	}
 }
 
 export const register = (req, res) => {
-	res.render("register", { style: "register.css" })
+	try {
+		return res.render("register", { style: "register.css" })
+	} catch (error) {
+		req.logger.error(`${error.message}`)
+		return res.status(500).render("500", {
+			style: "500.css",
+			error
+		})
+	}
 }
 
 export const profile = (req, res) => {
-	res.render("profile", {
-		user: req.user,
-		style: "profile.css"
-	})
+	try {
+		return res.render("profile", {
+			user: req.user,
+			style: "profile.css"
+		})
+	} catch (error) {
+		req.logger.error(`${error.message}`)
+		return res.status(500).render("500", {
+			style: "500.css",
+			error
+		})
+	}
 }
 
 export const passwordLinkView = async (req, res) => {
@@ -167,16 +193,21 @@ export const passwordLinkView = async (req, res) => {
 		res.render("passwordLink", {
 			style: "passwordLink.css"
 		})
-	} catch (error) {}
+	} catch (error) {
+		return res.status(500).render("500", {
+			style: "500.css",
+			error
+		})
+	}
 }
 
 export const resetPasswordView = async (req, res) => {
 	try {
 		const token = req.query.token
 		const PRIVATE_KEY = configs.privateKeyJWT
-		// TODO: revisar token y renderizar página correspondiente
+		//* revisar token y renderizar página correspondiente
 		jwt.verify(token, PRIVATE_KEY, (error, decoded) => {
-			// TODO: Si existe error, renderizar o rediregir a otra página
+			//* Si existe error, renderizar o rediregir a otra página
 			if (error) {
 				if (error.name === "TokenExpiredError") {
 					return res.redirect("/passwordLinkView")
@@ -187,8 +218,7 @@ export const resetPasswordView = async (req, res) => {
 					})
 				}
 			} else {
-				// TODO: Si no, renderizar página de cambio de contraseña
-				console.log(decoded)
+				//* Si no, renderizar página de cambio de contraseña
 				return res.render("passwordChange", {
 					email: decoded.user.email,
 					style: "passwordChange.css"
@@ -197,7 +227,7 @@ export const resetPasswordView = async (req, res) => {
 		})
 	} catch (error) {
 		req.logger.error(error.message)
-		return res.render("500", {
+		return res.status(500).render("500", {
 			style: "500.css",
 			error
 		})
@@ -206,10 +236,16 @@ export const resetPasswordView = async (req, res) => {
 
 export const usersView = async (req, res) => {
 	try {
-		const users = await getAllUsersServices()
-		
-		
+		const users = await usersViewServices()
+		return res.render("users", {
+			users: users || [],
+			style: "users.css"
+		})
 	} catch (error) {
-		
+		req.logger.error(error.message)
+		return res.status(500).render("500", {
+			style: "500.css",
+			error
+		})
 	}
 }

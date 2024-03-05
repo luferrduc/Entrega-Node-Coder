@@ -1,5 +1,6 @@
 import usersModel from "./models/users.model.js"
 import { DateTime } from "luxon"
+
 export default class Users {
 	constructor() {}
 	getAll = async () => {
@@ -12,7 +13,7 @@ export default class Users {
 	}
 
 	getById = async (uid) => {
-		const user = await usersModel.findById(uid)
+		const user = await usersModel.findById(uid).lean()
 		return user
 	}
 	getByEmail = async (email) => {
@@ -21,8 +22,7 @@ export default class Users {
 	}
 
 	signInSignOut = async (email) => {
-		const lastConnection = DateTime.now().toFormat("D, TT")
-	
+		const lastConnection = DateTime.now().toFormat("dd/LL/yyyy, TT")
 		const result = await usersModel.findOneAndUpdate(
 			{ email },
 			{ last_connection: lastConnection }

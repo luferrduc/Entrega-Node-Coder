@@ -1,6 +1,5 @@
 import z from "zod"
 
-
 const userSchema = z.object({
   first_name: z.string({
     invalid_type_error: "first_name must be a string",
