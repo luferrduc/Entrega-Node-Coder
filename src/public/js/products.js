@@ -57,7 +57,7 @@ async function handleButtonClick(e){
           "Content-Type" : "application/json"
         }
       });
-      console.log(result)
+
       const data = await result.json()
       if(data.status === "error"){
         // console.error(data.message)

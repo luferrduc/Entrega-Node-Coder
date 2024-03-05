@@ -233,7 +233,7 @@ export const resetPasswordView = async (req, res) => {
 		})
 	}
 }
-
+// TODO: Find the way to add users id to handlebars template users
 export const usersView = async (req, res) => {
 	try {
 		const users = await usersViewServices()

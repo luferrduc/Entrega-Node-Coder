@@ -13,7 +13,8 @@ import {
 	realTimeProductsView,
 	register,
 	resetPasswordView,
-	passwordLinkView
+	passwordLinkView,
+	usersView
 } from "../controllers/views.controller.js"
 
 const router = Router()
@@ -92,8 +93,9 @@ router
 	.get(
 		"/users",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.ADMIN]),
-		generateCustomResponse
+		handlePolicies([accessRolesEnum.ADMIN, accessRolesEnum.USER]),
+		generateCustomResponse,
+		usersView
 	)
 
 export default router
