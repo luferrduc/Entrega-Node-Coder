@@ -54,7 +54,7 @@ app.use(addLogger);
 
 // Middlewares
 app.disable("X-Powered-By");
-console.log((__mainDirname))
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

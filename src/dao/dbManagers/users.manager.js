@@ -13,10 +13,7 @@ export default class Users {
 	}
 
 	getById = async (uid) => {
-		console.log("ARRIBAAA")
-		console.log(uid)
 		const user = await usersModel.findById(uid).lean()
-		console.log("ABAJOOO")
 		return user
 	}
 	getByEmail = async (email) => {
