@@ -29,13 +29,14 @@ export default class Users {
 		)
 		return result
 	}
-	create = async ({ first_name, last_name, email, age, password }) => {
+	create = async ({ first_name, last_name, email, age, password, role }) => {
 		const result = await usersModel.create({
 			first_name,
 			last_name,
 			email,
 			age,
-			password
+			password,
+			role
 		})
 		return result
 	}

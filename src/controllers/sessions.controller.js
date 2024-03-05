@@ -48,7 +48,6 @@ export const login = async (req, res) => {
 		}
 
 		const publicUser = await showPublicUserServices(user);
-
 		const accessToken = generateToken(publicUser);
 
 		res.cookie("coderCookieToken", accessToken, {

@@ -7,7 +7,21 @@ export default class UsersRepository {
 
 	getAllUsers = async () => {
 		const users = await this.dao.getAll()
-		const publicUsers = users.map((user) => new UsersDto(user))
+		const publicUsers = users.map((user) => {
+			const userDto = new UsersDto(user)
+			const publicUser = userDto.getPublicData() 
+			return publicUser
+		})
+		return publicUsers
+	}
+
+	getAllPrivateUsers = async () => {
+		const users = await this.dao.getAll()
+		const publicUsers = users.map((user) => {
+			const userDto = new UsersDto(user)
+			const privateUser = userDto.getPrivateData()
+			return privateUser 
+		})
 		return publicUsers
 	}
 
@@ -28,7 +42,7 @@ export default class UsersRepository {
 	}
 
 	showPublicUser = async (user) => {
-		const finalUser = new UsersDto(user)
+		const finalUser = new UsersDto(user).getPublicData()
 		return finalUser
 	}
 

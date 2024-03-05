@@ -23,42 +23,42 @@ router
 	.get(
 		"/",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		profile
 	)
 	.get(
 		"/realtimeproducts",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		realTimeProductsView
 	)
 	.get(
 		"/products",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		productsView
 	)
 	.get(
 		"/products/:pid",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		productDetail
 	)
 	.get(
 		"/cart/detail",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		cartDetail
 	)
 	.get(
 		"/chat",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		chat
 	)
@@ -93,7 +93,7 @@ router
 	.get(
 		"/users",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.ADMIN, accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		usersView
 	)

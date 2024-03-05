@@ -11,6 +11,12 @@
 			href="/api/sessions/logout"
 			style="position: absolute; right: 10px; top: 10px"
 		><button>Salir</button></a>
+		{{#if user.isAdmin }}
+				<a
+				href="/users"
+				style="position: absolute; right: 60px; top: 10px"
+			><button>Users</button></a>
+		{{/if}}
 				<a
 			href="/"
 			style="position: absolute; left: 10px; top: 10px"

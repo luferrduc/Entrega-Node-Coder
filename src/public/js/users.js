@@ -12,15 +12,24 @@ async function changeRole(id) {
 			"Content-Type": "application/json"
 		}
 	})
+	let data = await response.json()
+	console.log(response)
 	if (response.ok) {
-		const data = await response.json()
-
 		Swal.fire({
-      title: 'Role changed succesfully!',
-      text: `El rol del usuario ${data.payload.email} fue modificado`,
-      icon: 'success',
-      confirmButtonText: 'Cool'
+			title: "Role changed succesfully!",
+			text: `El rol del usuario ${data.payload.email} fue modificado`,
+			icon: "success",
+			confirmButtonText: "Aceptar"
 		})
+	} else {
+		if (response.status === 422) {
+			Swal.fire({
+				title: "Role changed imposible!",
+				text: `${data.message}`,
+				icon: "error",
+				confirmButtonText: "Ok"
+			})
+		}
 	}
 }
 

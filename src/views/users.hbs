@@ -2,7 +2,25 @@
 {{!-- * SOLO usuario ADMIN puede entrar a esta vista * --}}
 
 <div class="container">
-	<h2>Listado de usuarios</h2>
+	<div
+		style="display: flex; flex-direction:column; justify-content:center; align-items:center"
+	>
+		<h3 style="font-size: 2.5rem;">	Listado de usuarios</h3>
+		<a
+			href="/api/sessions/logout"
+			style="position: absolute; right: 10px; top: 10px"
+		><button>Salir</button></a>
+				<a
+			href="/"
+			style="position: absolute; left: 10px; top: 10px"
+		><button>Perfil</button></a>
+		</a>
+				<a
+			href="/products"
+			style="position: absolute; left: 60px; top: 10px"
+		><button>Products</button></a>
+	</div>
+
 	<div id="container-table">
 		<table>
 			<thead>

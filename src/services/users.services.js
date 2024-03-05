@@ -20,6 +20,11 @@ export const getAllUsers = async () => {
 	return users
 }
 
+export const getAllPrivateUsers = async () => {
+	const users = await userRepository.getAllPrivateUsers()
+	return users
+}
+
 export const changeRoleUser = async (uid) => {
 	let result
 
@@ -33,7 +38,7 @@ export const changeRoleUser = async (uid) => {
 	if (user.role === "user") {
 		if (
 			!requiredDocuments.every(document =>
-				user.documents.some(userDocument => userDocument.name === document))
+				user?.documents?.some(userDocument => userDocument.name === document))
 		) {
 			throw new RequiredDocumentsNotFound(
 				"No se tienen todos los documentos necesarios para cambiar a premium"
