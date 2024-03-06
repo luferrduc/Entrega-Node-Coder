@@ -47,7 +47,7 @@ export const changeRoleUser = async (uid) => {
 		result = await userRepository.changeRole(uid, "premium")
 	} else if (user.role === "premium") {
 		result = await userRepository.changeRole(uid, "user")
-	}
+	}// TODO: Manejar el caso de que el usuario tenga rol admin
 
 	return result
 }
