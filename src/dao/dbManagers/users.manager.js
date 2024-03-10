@@ -110,4 +110,9 @@ export default class Users {
 		const deletedUsers = await usersModel.deleteMany({ email: usersEmail })
 		return deletedUsers
 	}
+
+	deleteOneUser = async (uid) => {
+		const result = await usersModel.findByIdAndDelete(uid)
+		return result
+	}
 }

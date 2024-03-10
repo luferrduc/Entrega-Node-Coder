@@ -20,6 +20,10 @@ async function changeRole(id) {
 			text: `El rol del usuario ${data.payload.email} fue modificado`,
 			icon: "success",
 			confirmButtonText: "Aceptar"
+		}).then((result) => {
+			if (result.isConfirmed) {
+				location.reload()
+			}
 		})
 	} else {
 		if (response.status === 422) {
@@ -28,6 +32,10 @@ async function changeRole(id) {
 				text: `${data.message}`,
 				icon: "error",
 				confirmButtonText: "Ok"
+			}).then((result) => {
+				if (result.isConfirmed) {
+					location.reload()
+				}
 			})
 		}
 	}
@@ -41,4 +49,22 @@ async function deleteUser(id) {
 			"Content-Type": "application/json"
 		}
 	})
+	let data = await response.json()
+	console.log(response)
+	if (response.ok) {
+		Swal.fire({
+			title: "User deleted succesfully",
+			text: `El usuario ha sido eliminado correctamente`,
+			icon: "success",
+			confirmButtonText: "Aceptar"
+		})
+		location.reload()
+	} else {
+		Swal.fire({
+			title: "User could not be deleted",
+			text: `${data.message}`,
+			icon: "error",
+			confirmButtonText: "Ok"
+		})
+	}
 }

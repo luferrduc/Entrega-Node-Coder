@@ -80,3 +80,8 @@ export const deleteInactiveUsers = async () => {
 	const result = await userRepository.deleteInactiveUsers(inactiveUsers)
 	return result
 }
+
+export const deleteOneUser = async (uid) => {
+	const deletedUser = await userRepository.deleteOneUser(uid)
+	return deletedUser
+}

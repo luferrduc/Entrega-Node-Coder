@@ -179,6 +179,9 @@ export const login = async (req, res) => {
 
 export const register = (req, res) => {
 	try {
+		if (req.cookies["coderCookieToken"]) {
+			return res.redirect("/")
+		}
 		return res.render("register", { style: "register.css" })
 	} catch (error) {
 		req.logger.error(`${error.message}`)
