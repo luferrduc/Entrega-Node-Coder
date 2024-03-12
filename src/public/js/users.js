@@ -4,7 +4,6 @@ numbers.forEach((el, key) => {
 })
 
 async function changeRole(id) {
-	console.log("Changing role of user with ID:", id)
 	const response = await fetch(`/api/users/premium/${id}/`, {
 		method: "PUT",
 		body: "",
@@ -13,16 +12,18 @@ async function changeRole(id) {
 		}
 	})
 	let data = await response.json()
-	console.log(response)
 	if (response.ok) {
 		Swal.fire({
 			title: "Role changed succesfully!",
 			text: `El rol del usuario ${data.payload.email} fue modificado`,
 			icon: "success",
-			confirmButtonText: "Aceptar"
+			confirmButtonText: "Aceptar",
+			confirmButtonColor: "#3085d6"
 		}).then((result) => {
 			if (result.isConfirmed) {
-				location.reload()
+				setTimeout(function () {
+					location.reload();
+				}, 2500);
 			}
 		})
 	} else {
@@ -34,7 +35,10 @@ async function changeRole(id) {
 				confirmButtonText: "Ok"
 			}).then((result) => {
 				if (result.isConfirmed) {
-					location.reload()
+					Swal.fire("Saved!", "", "success");
+					setTimeout(function () {
+						location.reload();
+					}, 2500);
 				}
 			})
 		}
@@ -42,7 +46,6 @@ async function changeRole(id) {
 }
 
 async function deleteUser(id) {
-	console.log("Deleting user with ID:", id)
 	const response = await fetch(`/api/users/${id}`, {
 		method: "DELETE",
 		headers: {
@@ -50,15 +53,22 @@ async function deleteUser(id) {
 		}
 	})
 	let data = await response.json()
-	console.log(response)
 	if (response.ok) {
 		Swal.fire({
 			title: "User deleted succesfully",
 			text: `El usuario ha sido eliminado correctamente`,
 			icon: "success",
-			confirmButtonText: "Aceptar"
+			confirmButtonText: "Aceptar",
+			confirmButtonColor: "#3085d6"
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire("Saved!", "", "success");
+				setTimeout(function () {
+					location.reload();
+				}, 2500);
+			} 
 		})
-		location.reload()
+		
 	} else {
 		Swal.fire({
 			title: "User could not be deleted",

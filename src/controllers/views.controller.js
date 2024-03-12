@@ -56,7 +56,6 @@ export const productsView = async (req, res) => {
 			page,
 			query: {}
 		}
-		console.log(req.user)
 		let sortLink = ""
 		if (sort?.toLowerCase() === "asc") {
 			options.sort = { price: 1 }

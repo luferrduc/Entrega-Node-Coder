@@ -28,11 +28,42 @@ document.addEventListener("DOMContentLoaded", (e) => {
 			<p>Purchaser: ${ticket.purchaser}</p>
 			<p>Purchaser: ${ticket.purchase_datetime}</p>
 			`;
+
+			const Toast = Swal.mixin({
+				toast: true,
+				position: "top-end",
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				didOpen: (toast) => {
+					toast.onmouseenter = Swal.stopTimer;
+					toast.onmouseleave = Swal.resumeTimer;
+				}
+			});
+			Toast.fire({
+				icon: "success",
+				title: "The purchase was made successfully"
+			});
+
 			setTimeout(function () {
 				location.reload();
-			}, 5500);
+			}, 2500);
 		} else {
-			alert("something went wrong. try again");
+			const Toast = Swal.mixin({
+				toast: true,
+				position: "top-end",
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				didOpen: (toast) => {
+					toast.onmouseenter = Swal.stopTimer;
+					toast.onmouseleave = Swal.resumeTimer;
+				}
+			});
+			Toast.fire({
+				icon: "error",
+				title: "Something went wrong. try again"
+			});
 		}
 	});
 
@@ -45,6 +76,21 @@ document.addEventListener("DOMContentLoaded", (e) => {
 			}
 		});
 
+		const Toast = Swal.mixin({
+			toast: true,
+			position: "top-end",
+			showConfirmButton: false,
+			timer: 1500,
+			timerProgressBar: true,
+			didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer;
+				toast.onmouseleave = Swal.resumeTimer;
+			}
+		});
+		Toast.fire({
+			icon: "sucess",
+			title: "The cart was emptied "
+		});
 		setTimeout(function () {
 			location.reload();
 		}, 1500);

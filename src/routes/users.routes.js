@@ -29,9 +29,9 @@ router
 	)
 	.get(
 		"/:uid",
-		passportCall(passportStrategiesEnum.NOTHING),
+		passportCall(passportStrategiesEnum.JWT),
 		handlePolicies([
-			accessRolesEnum.PUBLIC,
+			accessRolesEnum.USER,
 			accessRolesEnum.PREMIUM,
 			accessRolesEnum.ADMIN
 		]),
@@ -72,7 +72,6 @@ router
 		passportCall(passportStrategiesEnum.JWT),
 		handlePolicies([
 			accessRolesEnum.ADMIN,
-			accessRolesEnum.USER,
 		]),
 		generateCustomResponse,
 		deleteInactiveUsers
