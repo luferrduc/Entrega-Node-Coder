@@ -20,6 +20,11 @@ export const getAllUsers = async () => {
 	return users
 }
 
+export const getAllPrivateUsers = async () => {
+	const users = await userRepository.getAllPrivateUsers()
+	return users
+}
+
 export const changeRoleUser = async (uid) => {
 	let result
 
@@ -33,7 +38,7 @@ export const changeRoleUser = async (uid) => {
 	if (user.role === "user") {
 		if (
 			!requiredDocuments.every(document =>
-				user.documents.some(userDocument => userDocument.name === document))
+				user?.documents?.some(userDocument => userDocument.name === document))
 		) {
 			throw new RequiredDocumentsNotFound(
 				"No se tienen todos los documentos necesarios para cambiar a premium"
@@ -42,7 +47,7 @@ export const changeRoleUser = async (uid) => {
 		result = await userRepository.changeRole(uid, "premium")
 	} else if (user.role === "premium") {
 		result = await userRepository.changeRole(uid, "user")
-	}
+	}// TODO: Manejar el caso de que el usuario tenga rol admin
 
 	return result
 }
@@ -74,4 +79,9 @@ export const deleteInactiveUsers = async () => {
 	})
 	const result = await userRepository.deleteInactiveUsers(inactiveUsers)
 	return result
+}
+
+export const deleteOneUser = async (uid) => {
+	const deletedUser = await userRepository.deleteOneUser(uid)
+	return deletedUser
 }

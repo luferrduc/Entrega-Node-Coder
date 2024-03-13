@@ -29,13 +29,14 @@ export default class Users {
 		)
 		return result
 	}
-	create = async ({ first_name, last_name, email, age, password }) => {
+	create = async ({ first_name, last_name, email, age, password, role }) => {
 		const result = await usersModel.create({
 			first_name,
 			last_name,
 			email,
 			age,
-			password
+			password,
+			role
 		})
 		return result
 	}
@@ -108,5 +109,10 @@ export default class Users {
 		const deletedCarts = await usersModel.deleteMany({ _id: usersCarts })
 		const deletedUsers = await usersModel.deleteMany({ email: usersEmail })
 		return deletedUsers
+	}
+
+	deleteOneUser = async (uid) => {
+		const result = await usersModel.findByIdAndDelete(uid)
+		return result
 	}
 }

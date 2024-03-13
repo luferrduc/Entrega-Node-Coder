@@ -30,9 +30,11 @@ export const realTimeProductsView = async (req, res) => {
 			nextPage,
 			prevPage
 		} = await productsManager.getAll(options)
+		const user = req.user
+    user.isAdmin = user.role === "admin"
 		res.render("realtimeproducts", {
 			products: productsList,
-			user: req.user,
+			user,
 			hasPrevPage,
 			hasNextPage,
 			nextPage,
@@ -40,7 +42,9 @@ export const realTimeProductsView = async (req, res) => {
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
+		return res
+			.status(500)
+			.render("500", { style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -52,7 +56,6 @@ export const productsView = async (req, res) => {
 			page,
 			query: {}
 		}
-
 		let sortLink = ""
 		if (sort?.toLowerCase() === "asc") {
 			options.sort = { price: 1 }
@@ -81,8 +84,10 @@ export const productsView = async (req, res) => {
 		const nextLink = hasNextPage
 			? `/products?limit=${limit}&page=${nextPage}${sortLink}${queryLink}`
 			: null
+		const user = req.user
+		user.isAdmin = user.role === "admin"
 		res.render("products", {
-			user: req.user,
+			user,
 			products: productsList,
 			totalPages,
 			prevPage,
@@ -96,7 +101,9 @@ export const productsView = async (req, res) => {
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
+		return res
+			.status(500)
+			.render("500", { style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -108,14 +115,18 @@ export const productDetail = async (req, res) => {
 			return res.status(404).render("404", {
 				message: `Product with id ${pid} not found`
 			})
+		const user = req.user
+		user.isAdmin = user.role === "admin"
 		return res.render("product", {
 			product,
-			user: req.user,
+			user,
 			style: "product.css"
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
+		return res
+			.status(500)
+			.render("500", { style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -129,15 +140,19 @@ export const cartDetail = async (req, res) => {
 				message: `Cart with id ${cid} not found`
 			})
 		const products = cart.products
+		const user = req.user
+		user.isAdmin = user.role === "admin"
 		return res.render("cart", {
 			cart,
 			products,
-			user: req.user,
+			user,
 			style: "cart.css"
 		})
 	} catch (error) {
 		req.logger.error(`${error.message}`)
-		return res.status(500).render("500", {style: "500.css", message: `${error.message}` })
+		return res
+			.status(500)
+			.render("500", { style: "500.css", message: `${error.message}` })
 	}
 }
 
@@ -148,7 +163,7 @@ export const chat = async (req, res) => {
 
 export const login = async (req, res) => {
 	try {
-		if(req.cookies["coderCookieToken"]){
+		if (req.cookies["coderCookieToken"]) {
 			return res.redirect("/")
 		}
 		return res.render("login", { style: "login.css" })
@@ -163,6 +178,9 @@ export const login = async (req, res) => {
 
 export const register = (req, res) => {
 	try {
+		if (req.cookies["coderCookieToken"]) {
+			return res.redirect("/")
+		}
 		return res.render("register", { style: "register.css" })
 	} catch (error) {
 		req.logger.error(`${error.message}`)
@@ -175,8 +193,10 @@ export const register = (req, res) => {
 
 export const profile = (req, res) => {
 	try {
+		const user = req.user
+		user.isAdmin = user.role === "admin"
 		return res.render("profile", {
-			user: req.user,
+			user,
 			style: "profile.css"
 		})
 	} catch (error) {
@@ -233,7 +253,7 @@ export const resetPasswordView = async (req, res) => {
 		})
 	}
 }
-
+// TODO: Find the way to add users id to handlebars template users
 export const usersView = async (req, res) => {
 	try {
 		const users = await usersViewServices()

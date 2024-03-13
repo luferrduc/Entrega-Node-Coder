@@ -1,10 +1,18 @@
+{{#if user.isAdmin}}
+	<a href="/users" style="position: absolute; right: 60px; top: 10px"><button
+		>Users</button></a>
+{{/if}}
 <a
 	href="/api/sessions/logout"
-	style="position: absolute; left: 10px; top: 10px"
+	style="position: absolute; right: 10px; top: 10px"
 ><button>Salir</button></a>
-<a href="/products" style="position: absolute; left: 60px; top: 10px"><button
+<a href="/products" style="position: absolute; left: 10px; top: 10px"><button
 	>Products</button></a>
+	<a href="/" style="position: absolute; left: 90px; top: 10px"><button
+	>Profile</button></a>
 <div class="container">
+<div class="container">
+	
 	<h1>Carrito de compras</h1>
 
 	<div id="container-table" style="padding-top: 20px;">
@@ -42,7 +50,10 @@
 		<button class="{{cart._id}}" id="purchase-button">Purchase</button>
 	</div>
 </div>
-<div id="purchase-detail" style="display: flex; flex-direction: column; justify-content: center; align-content:center; margin-top: 15px">
+<div
+	id="purchase-detail"
+	style="display: flex; flex-direction: column; justify-content: center; align-content:center; margin-top: 15px"
+>
 
 </div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

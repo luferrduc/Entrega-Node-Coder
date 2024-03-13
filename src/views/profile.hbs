@@ -8,4 +8,7 @@
   <p>Rol: {{user.role}}</p>
   <a href="/api/sessions/logout"><button>Salir</button></a>
   <a href="/products"><button>Products</button></a>
+  {{#if user.isAdmin}}
+    <a href="/users"><button>Users</button></a>
+  {{/if}}
 </div>

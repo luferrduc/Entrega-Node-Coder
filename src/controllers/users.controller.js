@@ -7,6 +7,7 @@ import { uploadDocuments as uploadDocumentsServices } from "../services/users.se
 import { getUserById as getUserByIdServices } from "../services/users.services.js"
 import { getAllUsers as getAllUsersServices } from "../services/users.services.js"
 import { deleteInactiveUsers as deleteInactiveUsersServices } from "../services/users.services.js"
+import { deleteOneUser as deleteOneUserServices } from "../services/users.services.js"
 
 export const getAllUsers = async (req, res) => {
 	try {
@@ -73,7 +74,28 @@ export const uploadDocuments = async (req, res) => {
 	}
 }
 
-export const deleteOneUser = async (req, res) => {}
+export const deleteOneUser = async (req, res) => {
+	try {
+		const { uid } = req.params
+		const userExists = await getUserByIdServices(uid)
+		if(!userExists) {
+			throw new UserNotFoundError("User doesn't exists")
+		}
+		
+		const deletedUser = await deleteOneUserServices(uid)
+		return res.sendSuccess(deletedUser)
+	} catch (error) {
+		if(error instanceof UserNotFoundError){
+			req.logger.error(`${error.message}`)
+			return res.sendClientError(error.message)
+		}else{
+			req.logger.fatal(`${error.message}`)
+		return res.sendServerError(error.message)
+		}
+		
+		
+	}
+}
 
 export const deleteInactiveUsers = async (req, res) => {
 	try {

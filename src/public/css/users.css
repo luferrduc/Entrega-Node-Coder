@@ -1,0 +1,58 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+#container-table {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid rgba(128, 128, 128, 0.664);
+}
+
+thead {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody > tr:hover {
+  background-color: rgb(94, 94, 94);
+  color: white;
+}
+
+.action-button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px; /* Ajuste del tamaño de los botones */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px; /* Ajuste del tamaño del texto */
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.action-button:hover {
+  background-color: #45a049;
+}
+.action-button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}

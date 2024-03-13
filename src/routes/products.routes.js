@@ -1,5 +1,4 @@
 import { Router } from "express";
-import toAsyncRouter from "async-express-decorator"
 import { accessRolesEnum, passportStrategiesEnum } from "../config/enums.js";
 import { handlePolicies } from "../middlewares/auth.js";
 import { passportCall } from "../config/passport.config.js";
@@ -19,42 +18,42 @@ router
 	.get(
 		"/",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		getProducts
 	)
 	.get(
 		"/mockingproducts",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		mockingProducts
 	)
 	.get(
 		"/:pid",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		getProduct
 	)
 	.post(
 		"/",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		createProduct
 	)
 	.put(
 		"/:pid",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		updateProduct
 	)
 	.delete(
 		"/:pid",
 		passportCall(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePolicies([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		deleteProduct
 	);

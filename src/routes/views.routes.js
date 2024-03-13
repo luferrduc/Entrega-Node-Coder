@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { accessRolesEnum, passportStrategiesEnum } from "../config/enums.js"
-import { handlePolicies } from "../middlewares/auth.js"
-import { passportCall, passportCallViews } from "../config/passport.config.js"
+import { handlePoliciesViews } from "../middlewares/auth.js"
+import { passportCallViews } from "../config/passport.config.js"
 import { generateCustomResponse } from "../middlewares/responses.js"
 import {
 	cartDetail,
@@ -13,7 +13,8 @@ import {
 	realTimeProductsView,
 	register,
 	resetPasswordView,
-	passwordLinkView
+	passwordLinkView,
+	usersView
 } from "../controllers/views.controller.js"
 
 const router = Router()
@@ -22,78 +23,79 @@ router
 	.get(
 		"/",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePoliciesViews([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		profile
 	)
 	.get(
 		"/realtimeproducts",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePoliciesViews([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		realTimeProductsView
 	)
 	.get(
 		"/products",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePoliciesViews([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		productsView
 	)
 	.get(
 		"/products/:pid",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER, accessRolesEnum.ADMIN]),
+		handlePoliciesViews([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		productDetail
 	)
 	.get(
 		"/cart/detail",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePoliciesViews([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		cartDetail
 	)
 	.get(
 		"/chat",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.USER]),
+		handlePoliciesViews([accessRolesEnum.USER, accessRolesEnum.PREMIUM, accessRolesEnum.ADMIN]),
 		generateCustomResponse,
 		chat
 	)
 	.get(
 		"/register",
 		passportCallViews(passportStrategiesEnum.NOTHING),
-		handlePolicies([accessRolesEnum.PUBLIC]),
+		handlePoliciesViews([accessRolesEnum.PUBLIC]),
 		generateCustomResponse,
 		register
 	)
 	.get(
 		"/login",
 		passportCallViews(passportStrategiesEnum.NOTHING),
-		handlePolicies([accessRolesEnum.PUBLIC]),
+		handlePoliciesViews([accessRolesEnum.PUBLIC]),
 		generateCustomResponse,
 		login
 	)
 	.get(
 		"/password-link",
 		passportCallViews(passportStrategiesEnum.NOTHING),
-		handlePolicies([accessRolesEnum.PUBLIC]),
+		handlePoliciesViews([accessRolesEnum.PUBLIC]),
 		generateCustomResponse,
 		passwordLinkView
 	)
 	.get(
 		"/reset-password",
 		passportCallViews(passportStrategiesEnum.NOTHING),
-		handlePolicies([accessRolesEnum.PUBLIC]),
+		handlePoliciesViews([accessRolesEnum.PUBLIC]),
 		generateCustomResponse,
 		resetPasswordView
 	)
 	.get(
 		"/users",
 		passportCallViews(passportStrategiesEnum.JWT),
-		handlePolicies([accessRolesEnum.ADMIN]),
-		generateCustomResponse
+		handlePoliciesViews([accessRolesEnum.ADMIN]),
+		generateCustomResponse,
+		usersView
 	)
 
 export default router

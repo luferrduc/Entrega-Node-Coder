@@ -2,33 +2,61 @@
 {{!-- * SOLO usuario ADMIN puede entrar a esta vista * --}}
 
 <div class="container">
-    <div id="container-table">
-      <table>
-        <thead>
-          <tr>
-            <th>UID</th>
-            <th>First Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Last Connection</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="user-table">
-          {{#each users}}
-          <tr>
-            <td>{{_id}}</td>
-            <td>{{first_name}}</td>
-            <td>{{email}}</td>
-            <td>{{role}}</td>
-            <td>{{last_connection}}</td>
-            <td>
-              <button onclick="changeRole('{{_id}}')">Change Role</button>
-              <button onclick="deleteUser('{{_id}}')">Delete User</button>
-            </td>
-          </tr>
-        {{/each}}
-        </tbody>
-      </table>
-    </div>
-  </div>
+	<div
+		style="display: flex; flex-direction:column; justify-content:center; align-items:center"
+	>
+		<h3 style="font-size: 2.5rem;">	Listado de usuarios</h3>
+		<a
+			href="/api/sessions/logout"
+			style="position: absolute; right: 10px; top: 10px"
+		><button>Salir</button></a>
+				<a
+			href="/"
+			style="position: absolute; left: 10px; top: 10px"
+		><button>Perfil</button></a>
+		</a>
+				<a
+			href="/products"
+			style="position: absolute; left: 60px; top: 10px"
+		><button>Products</button></a>
+	</div>
+
+	<div id="container-table">
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>First Name</th>
+					<th>Email</th>
+					<th>Role</th>
+					<th>Last Connection</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody id="user-table">
+				{{#each users}}
+					<tr>
+						<td class="numberId"></td>
+						<td>{{first_name}}</td>
+						<td>{{email}}</td>
+						<td>{{role}}</td>
+						<td>{{last_connection}}</td>
+						<td>
+							<button
+								class="action-button"
+								onclick="changeRole('{{_id}}')"
+							>Change Role</button>
+							<button
+								class="action-button"
+								onclick="deleteUser('{{_id}}')"
+							>Delete User</button>
+						</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/users.js"></script>

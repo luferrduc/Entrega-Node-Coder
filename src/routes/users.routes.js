@@ -8,7 +8,8 @@ import {
 	uploadDocuments,
 	getAllUsers,
 	getUserById,
-	deleteInactiveUsers
+	deleteInactiveUsers,
+	deleteOneUser
 } from "../controllers/users.controller.js"
 import uploader from "../middlewares/uploader.js"
 
@@ -28,9 +29,9 @@ router
 	)
 	.get(
 		"/:uid",
-		passportCall(passportStrategiesEnum.NOTHING),
+		passportCall(passportStrategiesEnum.JWT),
 		handlePolicies([
-			accessRolesEnum.PUBLIC,
+			accessRolesEnum.USER,
 			accessRolesEnum.PREMIUM,
 			accessRolesEnum.ADMIN
 		]),
@@ -71,17 +72,18 @@ router
 		passportCall(passportStrategiesEnum.JWT),
 		handlePolicies([
 			accessRolesEnum.ADMIN,
-			accessRolesEnum.USER,
 		]),
 		generateCustomResponse,
 		deleteInactiveUsers
 	)
 	.delete(
-		"/:email",
+		"/:uid",
 		passportCall(passportStrategiesEnum.JWT),
 		handlePolicies([
 			accessRolesEnum.ADMIN
-		])
+		]),
+		generateCustomResponse,
+		deleteOneUser
 	)
 
 export default router

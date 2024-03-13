@@ -22,11 +22,28 @@ form.addEventListener("submit", async (evt) => {
     if (result.status === 400){
 
       const data = await result.json()
-      return alert(data.message);
+      let mensaje = ""
+      // console.log(data.message.issues)
+      data.message.issues.map((err) => {
+        mensaje+= `${err.message}, `
+      })
+      Swal.fire({
+        title: "Error al crear un producto",
+        text: mensaje,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+      })
     }
   } catch (error) {
     console.error(error.message);
-    return alert("Error en el servidor");
+    Swal.fire({
+      title: "Error del servidor",
+      text: "Hubo un error en el servidor. Intenta más tarde o contactate con nosotros",
+      icon: "error",
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#3085d6"
+    })
   }
 });
 
@@ -57,12 +74,26 @@ async function handleButtonClick(e){
           "Content-Type" : "application/json"
         }
       });
-      console.log(result)
+
       const data = await result.json()
       if(data.status === "error"){
         // console.error(data.message)
       }else{
-        alert("Producto agregado correctamente")
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Producto agregado correctamente"
+        });
       }
     } catch (error) {
       console.error(error.message)
