@@ -199,6 +199,7 @@ export const passportCallViews = (strategy) => (req, res, next) => {
 				if (err) return next(err);
 				if (!user) {
 					req.logger.debug(`${info.messages ? info.messages : info.toString()}`)
+					if(req.path === '/') return res.redirect("/login")
 					return res.status(401).render("401",{
 						status: "error",
 						style: "401.css",
