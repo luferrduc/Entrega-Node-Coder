@@ -2,12 +2,25 @@ document.addEventListener("DOMContentLoaded", (e) => {
 	const numbers = document.querySelectorAll(".numberId");
 	const purchaseButton = document.querySelector("#purchase-button");
 	const voidCartButton = document.querySelector("#void-button");
-
+	const products = document.querySelectorAll(".products")
 	const purchaseDetail = document.getElementById("purchase-detail");
+	const totalElement = document.getElementById("total")
+	const subtotales = []
 	purchaseDetail.innerHTML = ``;
 	numbers.forEach((el, key) => {
 		el.innerText = key + 1;
 	});
+
+	products.forEach((product) => {
+		const subtotal = product.children[5].innerText * product.children[7].innerText
+		product.lastElementChild.innerText = subtotal
+		subtotales.push(subtotal)
+	})
+
+	totalElement.innerText = "$"+subtotales.reduce((total, current)=>{
+		return total + current
+	}, 0)
+
 	purchaseButton.addEventListener("click", async (e) => {
 		const cid = e.target.className;
 		const response = await fetch(`/api/carts/${cid}/purchase`, {

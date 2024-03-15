@@ -27,11 +27,12 @@
 					<th>Precio</th>
 					<th>Categoría</th>
 					<th>Cantidad</th>
+					<th>Subtotal</th>
 				</tr>
 			</thead>
 			<tbody>
-				{{#each products}}
-					<tr>
+				{{#each cart.products}}
+					<tr class="products">
 						<td class="numberId"></td>
 						<td>{{this.product.title}}</td>
 						<td>{{this.product.description}}</td>
@@ -40,9 +41,16 @@
 						<td>{{this.product.price}}</td>
 						<td>{{this.product.category}}</td>
 						<td>{{this.quantity}}</td>
+						<td></td>
 					</tr>
 				{{/each}}
 			</tbody>
+			<tfoot>
+				<tr>
+					<td style="font-weight: bold;">Total</td>
+					<td id="total"></td>
+				</tr>
+  		</tfoot>
 		</table>
 	</div>
 	<div style="display: flex; justify-content: end; margin-top: 15px">
