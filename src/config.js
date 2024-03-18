@@ -23,6 +23,10 @@ const configs = {
   privateKeyJWT: process.env.PRIVATE_KEY_JWT,
   userNodeMailer: process.env.USER_NODEMAILER,
   passwordNodeMailer: process.env.PASSWORD_NODEMAILER,
-  environment
+  environment,
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: process.env.GITHUB_CALLBACK_URL
 }
+
 export default configs
